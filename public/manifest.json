@@ -1,9 +1,9 @@
 {
-  "short_name": "Push Notification",
-  "name": "Push Notification",
+  "short_name": "Aqua-quanlymangnuoc",
+  "name": "Aqua-quanlymangnuoc",
   "icons": [
     {
-      "src": "logo.ico",
+      "src": "logo.png",
       "sizes": "32x32",
       "type": "image/x-icon"
     }

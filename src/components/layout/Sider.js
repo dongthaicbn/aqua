@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import { FormattedMessage } from 'react-intl';
 import { withRouter } from 'react-router-dom';
 import './Layout.scss';
-import { routes, TOKEN, roles } from 'utils/constants/constants';
+import { routes, TOKEN } from 'utils/constants/constants';
 import * as icons from 'assets';
 import { isEmpty } from 'utils/helpers/helpers';
 import { requestLogout } from 'view/system/systemAction';
@@ -52,54 +52,20 @@ const Sider = (props) => {
       </Menu.Item>
     </Menu>
   );
-  const isAdmin = !isEmpty(props.role.filter((el) => el.name === roles.ADMIN));
-  // const isGuest = !isEmpty(props.role.filter((el) => el.name === roles.GUEST));
   const menuList = [
     {
-      normalIC: icons.voucher,
-      activeIC: icons.voucher_red,
+      normalIC: icons.avatar,
+      activeIC: icons.avatar,
       text: 'Solutions',
       isActive: props.location.pathname === routes.SOLUTION,
       route: routes.SOLUTION,
-      isShow: true,
-    },
-    {
-      normalIC: icons.basket,
-      activeIC: icons.basket_red,
-      text: 'Notification',
-      isActive: props.location.pathname === routes.NOTIFICATION,
-      route: routes.NOTIFICATION,
-      isShow: true,
-    },
-    {
-      normalIC: icons.user,
-      activeIC: icons.user_red,
-      text: 'History',
-      isActive: props.location.pathname === routes.HISTORY,
-      route: routes.HISTORY,
-      isShow: true,
-    },
-    {
-      normalIC: icons.user,
-      activeIC: icons.user_red,
-      text: 'User',
-      isActive: props.location.pathname === routes.USER,
-      route: routes.USER,
-      isShow: isAdmin,
-    },
-    {
-      normalIC: icons.user,
-      activeIC: icons.user_red,
-      text: 'Setting',
-      isActive: props.location.pathname === routes.SETTING,
-      route: routes.SETTING,
       isShow: true,
     },
   ];
   return (
     <div className="sider-container">
       <div className="logo-container">
-        <img src={icons.vsmart_logo} alt="logo user" className="logo-image" />
+        <img src={icons.logo_white} alt="logo user" className="logo-image" />
         <span className="logo-text">Push Notification</span>
       </div>
       <Menu

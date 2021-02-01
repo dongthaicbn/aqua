@@ -13,12 +13,7 @@ export const routes = {
   ERROR: '/error',
   LOGIN: '/login',
   LOGOUT: '/logout',
-  CHANGE_PASSWORD: '/change-password',
   SOLUTION: '/solution',
-  NOTIFICATION: '/notification',
-  HISTORY: '/history',
-  USER: '/user',
-  SETTING: '/setting',
 };
 export const formItemLayout = {
   labelCol: { xs: { span: 24 }, sm: { span: 4 } },

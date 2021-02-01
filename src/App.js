@@ -2,7 +2,6 @@ import React, { useEffect } from 'react';
 import { Layout } from 'antd';
 import cookie from 'js-cookie';
 import { withRouter } from 'react-router-dom';
-// import { FormattedMessage } from 'react-intl';
 import { connect } from 'react-redux';
 import { getAccountInfo } from 'view/system/systemAction';
 import 'App.scss';
