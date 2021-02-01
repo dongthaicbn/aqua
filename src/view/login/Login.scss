@@ -2,47 +2,64 @@
   position: relative;
   width: 100vw;
   height: 100vh;
-  background-image: linear-gradient(#32395f, #2a2d47);
+  display: flex;
+  .login-left {
+    width: 60%;
+    background: #236be1;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    .logo-content {
+      display: flex;
+      img {
+        width: 160px;
+        margin: 0 32px 0 0;
+      }
+      .login-text {
+        max-width: 500px;
+        .login-header {
+          font-size: 48px;
+          font-weight: 700;
+          letter-spacing: -2px;
+          line-height: 54px;
+        }
+        .sub-header {
+          font-size: 20px;
+        }
+      }
+    }
+  }
   .login-container {
-    width: 446px;
-    height: auto;
-    display: block;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
+    min-width: 460px;
+    width: 40%;
     background: white;
     padding: 60px;
     border-radius: 3px;
-    .logo-container {
-      display: flex;
-      margin-bottom: 56px;
-      justify-content: center;
-      .logo-img {
-        height: 96px;
-      }
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    .logo-img {
+      width: 120px;
+      margin-bottom: 24px;
     }
     .fail-text {
       color: red;
       margin-bottom: 10px;
       margin-top: -10px;
     }
-    .login-header-text {
-      font-size: 20px;
-      font-weight: 600;
-      margin-top: 5px;
-      margin-bottom: 20px;
-    }
-    .cancel-btn {
-      margin-right: 20px;
+    .login-form {
+      min-width: 420px;
     }
   }
   .login-btn {
     width: 100%;
-    background: #e94940;
-    border-color: #e94940;
+    background: #3a8ee6;
+    border-color: #3a8ee6;
     height: 48px;
     font-size: 20px;
+    margin-top: 24px;
   }
 }
 @media only screen and (max-width: 768px) {

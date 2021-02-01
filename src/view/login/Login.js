@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { withRouter } from 'react-router-dom';
-import { Form, Input, Button } from 'antd';
+import { Form, Input, Button, Divider } from 'antd';
 import cookie from 'js-cookie';
 import { connect } from 'react-redux';
 import * as icons from '../../assets';
@@ -18,10 +18,11 @@ const Login = (props) => {
   const onFinish = async (values) => {
     try {
       setLoading(true);
-      const { data } = await requestLogin(values);
-      cookie.set(TOKEN, data.id_token);
-      props.getAccountInfo();
-      props.history.push(routes.SOLUTION);
+      // const { data } = await requestLogin(values);
+      // cookie.set(TOKEN, data.id_token);
+      cookie.set(TOKEN, 'token123456789');
+      // props.getAccountInfo();
+      props.history.push(routes.MAP.replace(':type', 'admin'));
       setLoading(false);
     } catch (err) {
       setLoading(false);
@@ -38,14 +39,27 @@ const Login = (props) => {
   };
   return (
     <div className="login-wrapper">
-      <div className="login-container">
-        <div className="logo-container">
-          <img src={icons.vsmart_logo} alt="user" className="logo-img" />
+      <div className="login-left">
+        <div className="logo-content">
+          <img src={icons.logo_transparent} alt="logo" />
+          <div className="login-text">
+            <p className="login-header">Water Network Management System</p>
+            <Divider style={{ background: 'white' }} />
+            <p className="sub-header">
+              Chào mừng bạn đến với hệ thống quản lý mạng nước
+            </p>
+          </div>
         </div>
+      </div>
+      <div className="login-container">
+        <img src={icons.logo_transparent} className="logo-img" alt="logo" />
         {showErrMes && <p className="fail-text">{showErrMes}</p>}
-
-        <Form onFinish={onFinish} onFinishFailed={onFinishFailed}>
-          <span className="lab-text">Username</span>
+        <Form
+          onFinish={onFinish}
+          onFinishFailed={onFinishFailed}
+          className="login-form"
+        >
+          <span className="lab-text">Tài khoản</span>
           <Form.Item
             name="username"
             rules={[
@@ -58,9 +72,9 @@ const Login = (props) => {
               { pattern: "^[_'.@A-Za-z0-9-]*$", message: 'Hãy nhập username' },
             ]}
           >
-            <Input placeholder="Username" />
+            <Input placeholder="Nhập tài khoản" />
           </Form.Item>
-          <span className="lab-text">Password</span>
+          <span className="lab-text">Mật khẩu</span>
           <Form.Item
             name="password"
             rules={[
@@ -71,7 +85,7 @@ const Login = (props) => {
               },
             ]}
           >
-            <Input.Password />
+            <Input.Password placeholder="Nhập mật khẩu" />
           </Form.Item>
           <Form.Item className="footer-container">
             <Button

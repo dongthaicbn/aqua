@@ -1,73 +1,32 @@
 import React from 'react';
-import { Menu, Dropdown, Modal } from 'antd';
-import cookie from 'js-cookie';
+import { Menu, Divider } from 'antd';
 import { connect } from 'react-redux';
-import { FormattedMessage } from 'react-intl';
 import { withRouter } from 'react-router-dom';
 import './Layout.scss';
-import { routes, TOKEN } from 'utils/constants/constants';
+import { routes } from 'utils/constants/constants';
 import * as icons from 'assets';
-import { isEmpty } from 'utils/helpers/helpers';
-import { requestLogout } from 'view/system/systemAction';
-// import ChangePasswordModal from './ChangePasswordModal';
 
 const Sider = (props) => {
-  // const [visible, setVisible] = useState(false);
   const handleClick = ({ key }) => {
     props.history.push(key);
   };
-  const handleClickAvatar = async ({ key }) => {
-    if (key === routes.LOGIN) {
-      Modal.confirm({
-        title: 'Bạn có chắc chắn muốn đăng xuất?',
-        content: null,
-        centered: true,
-        onOk: async () => {
-          try {
-            await requestLogout();
-          } catch (err) {}
-          cookie.remove(TOKEN);
-          props.history.push(key);
-        },
-        onCancel: () => {},
-      });
-    } else {
-      // setVisible(true);
-    }
-  };
-  const itemStyle = {
-    padding: 0,
-    marginLeft: 13,
-    width: 'calc(100% - 13px)',
-    background: '#2A2D45',
-    borderRadius: '23px 0 0 23px',
-  };
-  const menu = (
-    <Menu onClick={handleClickAvatar}>
-      {/* <Menu.Item key={routes.CHANGE_PASSWORD}>
-        <FormattedMessage id="CHANGE_PASSWORD" />
-      </Menu.Item> */}
-      <Menu.Item key={routes.LOGIN}>
-        <FormattedMessage id="IDS_SMS_LOGOUT" />
-      </Menu.Item>
-    </Menu>
-  );
+  const itemStyle = { padding: 0, width: '100%', background: '#2A2D45' };
   const menuList = [
     {
       normalIC: icons.avatar,
       activeIC: icons.avatar,
-      text: 'Solutions',
-      isActive: props.location.pathname === routes.SOLUTION,
-      route: routes.SOLUTION,
+      text: 'Admin',
+      isActive: props.location.pathname === routes.MAP,
+      route: routes.MAP,
       isShow: true,
     },
   ];
   return (
     <div className="sider-container">
       <div className="logo-container">
-        <img src={icons.logo_white} alt="logo user" className="logo-image" />
-        <span className="logo-text">Push Notification</span>
+        <img src={icons.logo_white} alt="logo" />
       </div>
+      <Divider style={{ background: 'white' }} />
       <Menu
         onClick={handleClick}
         defaultSelectedKeys={[props.location.pathname]}
@@ -81,7 +40,6 @@ const Sider = (props) => {
                 style={{
                   ...itemStyle,
                   background: el.isActive ? '#2A2D45' : 'transparent',
-                  borderRadius: el.isActive ? '23px 0 0 23px' : 'none',
                 }}
               >
                 {el.isActive ? (
@@ -100,19 +58,6 @@ const Sider = (props) => {
           return null;
         })}
       </Menu>
-      <Dropdown overlay={menu}>
-        <div className="footer-container">
-          <img src={icons.avatar} alt="avatar" className="logo-image" />
-          {!isEmpty(props.account) && (
-            <p className="footer-text" title={props.account.fullName}>
-              {props.account.fullName}
-            </p>
-          )}
-        </div>
-      </Dropdown>
-      {/* {visible && (
-        <ChangePasswordModal handleCloseModal={() => setVisible(false)} />
-      )} */}
     </div>
   );
 };

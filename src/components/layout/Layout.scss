@@ -1,19 +1,10 @@
 .sider-container {
   height: 100%;
+  padding: 16px;
   .logo-container {
-    height: 126px;
     display: flex;
-    .logo-image {
-      margin: 34px 0 34px 29px;
-      width: 58px;
-      height: 58px;
-    }
-    .logo-text {
-      font-size: 20px;
-      font-weight: 600;
-      color: white;
-      display: flex;
-      align-items: center;
+    img {
+      width: 100%;
     }
   }
   .icon-menu {
@@ -53,10 +44,9 @@
   .ant-menu {
     background: transparent;
   }
-  .ant-menu-vertical .ant-menu-item::after,
-  .ant-menu-vertical-left .ant-menu-item::after,
-  .ant-menu-vertical-right .ant-menu-item::after,
-  .ant-menu-inline .ant-menu-item::after {
+  .ant-menu-inline,
+  .ant-menu-vertical,
+  .ant-menu-vertical-left {
     border-right: none;
   }
 }

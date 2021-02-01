@@ -23,7 +23,6 @@ request.interceptors.response.use(
     return response;
   },
   (error) => {
-    console.log('error', error.response);
     if (error.response && error.response.status === 401) {
       window.location.href = routes.LOGIN;
     }

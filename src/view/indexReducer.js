@@ -1,8 +1,8 @@
 import { combineReducers } from 'redux';
 import system from './system/systemReducer';
-import solution from './solution/SolutionReducer';
+import map from './map/MapReducer';
 
 export default combineReducers({
   system,
-  solution,
+  map,
 });

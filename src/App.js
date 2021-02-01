@@ -42,11 +42,6 @@ const App = (props) => {
         return '';
     }
   };
-  console.log(
-    'VERSION:',
-    `${new Date().getDate()}.${new Date().getMonth() + 1}_01`
-  );
-  console.log('location', props.location);
   const isGuest = !isEmpty(props.role.filter((el) => el.name === roles.GUEST));
   return (
     <div className="app-container">
@@ -59,7 +54,7 @@ const App = (props) => {
         </div>
       ) : (
         <Layout>
-          <Layout.Sider>
+          <Layout.Sider width={325}>
             <Sider />
           </Layout.Sider>
           <Layout>
