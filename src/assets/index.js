@@ -1,0 +1,13 @@
+export { default as avatar } from './icons/avatar.svg';
+export { default as vsmart_logo } from './icons/vsmart_logo.svg';
+export { default as user } from './icons/user.svg';
+export { default as user_red } from './icons/user_red.svg';
+export { default as basket } from './icons/basket.svg';
+export { default as basket_red } from './icons/basket_red.svg';
+export { default as delete } from './icons/delete.svg';
+export { default as edit } from './icons/edit.svg';
+export { default as excel } from './icons/excel_ic.svg';
+export { default as download } from './icons/download.svg';
+export { default as transfer } from './icons/transfer.svg';
+export { default as voucher } from './icons/voucher.svg'
+export { default as voucher_red } from './icons/voucher_red.svg'

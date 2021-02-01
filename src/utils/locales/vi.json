@@ -1,0 +1,13 @@
+{
+  "CHANGE_LANGUAGE": "Thay đổi ngôn ngữ",
+  "CHANGE_PASSWORD": "Thay đổi mật khẩu",
+  "IDS_SMS_MESSAGE": "Message",
+  "IDS_SMS_CONTACT": "Contact",
+  "IDS_SMS_LOGIN": "Đăng nhập",
+  "IDS_SMS_LOGOUT": "Đăng xuất",
+  "IDS_SMS_SEND_MESSAGE": "Send Message",
+  "IDS_SMS_USER": "Tài khoản",
+  "IDS_SMS_TEMPLATE": "Template",
+  "IDS_SMS_EVENT": "Event",
+  "IDS_SMS_SEARCH_PHONE": "Search phone"
+}

@@ -1,0 +1,13 @@
+{
+  "CHANGE_LANGUAGE": "Change language",
+  "CHANGE_PASSWORD": "Change password",
+  "IDS_SMS_MESSAGE": "Message",
+  "IDS_SMS_CONTACT": "Contact",
+  "IDS_SMS_LOGIN": "Login",
+  "IDS_SMS_LOGOUT": "Logout",
+  "IDS_SMS_SEND_MESSAGE": "Send Message",
+  "IDS_SMS_USER": "User",
+  "IDS_SMS_TEMPLATE": "Template",
+  "IDS_SMS_EVENT": "Event",
+  "IDS_SMS_SEARCH_PHONE": "Search phone"
+}
