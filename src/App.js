@@ -1,5 +1,6 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Layout } from 'antd';
+import { MenuUnfoldOutlined, MenuFoldOutlined } from '@ant-design/icons';
 import cookie from 'js-cookie';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
@@ -12,6 +13,8 @@ import Login from 'view/login/Login';
 import { isEmpty } from 'utils/helpers/helpers';
 
 const App = (props) => {
+  const [collapsed, setCollapsed] = useState(false);
+  const toggle = () => setCollapsed(!collapsed);
   useEffect(() => {
     if (
       !isEmpty(cookie.get(TOKEN)) &&
@@ -26,22 +29,6 @@ const App = (props) => {
     // if (cookie.get(TOKEN)) cookie.remove(TOKEN);
     return <Login />;
   }
-  const getTitle = () => {
-    switch (props.location.pathname) {
-      case `${routes.SOLUTION}`:
-        return 'Solution';
-      case `${routes.NOTIFICATION}`:
-        return 'Notification';
-      case `${routes.HISTORY}`:
-        return 'History';
-      case `${routes.USER}`:
-        return 'User';
-      case `${routes.SETTING}`:
-        return 'Setting';
-      default:
-        return '';
-    }
-  };
   const isGuest = !isEmpty(props.role.filter((el) => el.name === roles.GUEST));
   return (
     <div className="app-container">
@@ -54,12 +41,22 @@ const App = (props) => {
         </div>
       ) : (
         <Layout>
-          <Layout.Sider width={325}>
-            <Sider />
-          </Layout.Sider>
+          {!collapsed && (
+            <Layout.Sider width={325} style={{ transition: '1s linear' }}>
+              <Sider />
+            </Layout.Sider>
+          )}
           <Layout>
-            <Layout.Header>
-              <p className="header-page">{getTitle()}</p>
+            <Layout.Header
+              style={{ background: '#173d6a', color: 'white', fontSize: 24 }}
+            >
+              {React.createElement(
+                collapsed ? MenuUnfoldOutlined : MenuFoldOutlined,
+                { className: 'trigger', onClick: toggle }
+              )}
+              <span style={{ marginLeft: 8, fontSize: 20 }}>
+                Quản lý mạng nước
+              </span>
             </Layout.Header>
             <Layout.Content className="content-container">
               <Routes />
