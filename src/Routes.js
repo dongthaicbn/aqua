@@ -14,7 +14,7 @@ const Routes = (props) => {
   }
   return (
     <Switch>
-      <Redirect exact from="/" to={routes.MAP} />
+      <Redirect exact from="/" to={routes.MAP.replace(':type', 'admin')} />
       <Route exact path={routes.MAP} component={Map} />
       <Route exact path={routes.LOGIN} component={Login} />
     </Switch>
