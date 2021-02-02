@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Layout } from 'antd';
 import { MenuUnfoldOutlined, MenuFoldOutlined } from '@ant-design/icons';
-import cookie from 'js-cookie';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { getAccountInfo } from 'view/system/systemAction';
@@ -13,14 +12,14 @@ import Login from 'view/login/Login';
 import { isEmpty } from 'utils/helpers/helpers';
 
 const App = (props) => {
-  const [collapsed, setCollapsed] = useState(false);
+  const [collapsed, setCollapsed] = useState(true);
   const toggle = () => setCollapsed(!collapsed);
   useEffect(() => {
     if (
-      !isEmpty(cookie.get(TOKEN)) &&
+      !isEmpty(localStorage.getItem(TOKEN)) &&
       props.location.pathname !== routes.LOGIN
     ) {
-      props.getAccountInfo();
+      // props.getAccountInfo();
     }
     // eslint-disable-next-line
   }, []);

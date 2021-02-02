@@ -1,11 +1,10 @@
 import React, { useState } from 'react';
 import { withRouter } from 'react-router-dom';
 import { Form, Input, Button, Divider } from 'antd';
-import cookie from 'js-cookie';
 import { connect } from 'react-redux';
 import * as icons from '../../assets';
 import { FormattedMessage } from 'react-intl';
-import { requestLogin } from './LoginService';
+// import { requestLogin } from './LoginService';
 import { getAccountInfo } from '../../view/system/systemAction';
 import './Login.scss';
 import { routes, TOKEN } from '../../utils/constants/constants';
@@ -20,7 +19,7 @@ const Login = (props) => {
       setLoading(true);
       // const { data } = await requestLogin(values);
       // cookie.set(TOKEN, data.id_token);
-      cookie.set(TOKEN, 'token123456789');
+      localStorage.setItem(TOKEN, 'token123456789');
       // props.getAccountInfo();
       props.history.push(routes.MAP.replace(':type', 'admin'));
       setLoading(false);

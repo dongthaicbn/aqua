@@ -1,11 +1,10 @@
 import axios from 'axios';
-import cookie from 'js-cookie';
 import { TOKEN, routes } from '../constants/constants';
 import config from '../constants/config';
 
 const request = axios.create({
   baseURL: config.BASE_URL,
-  headers: { Authorization: 'Bearer ' + cookie.get(TOKEN) },
+  headers: { Authorization: 'Bearer ' + localStorage.getItem(TOKEN) },
 });
 
 request.interceptors.request.use(
@@ -35,7 +34,7 @@ const api = (options = {}) => {
     baseURL: config.BASE_URL,
     ...options,
     headers: {
-      Authorization: 'Bearer ' + cookie.get(TOKEN),
+      Authorization: 'Bearer ' + localStorage.getItem(TOKEN),
       ...options.headers,
     },
   });
