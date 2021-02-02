@@ -15,6 +15,12 @@ export const routes = {
   LOGOUT: '/logout',
   MAP: '/map/:type',
 };
+export const TYPE_MAP = {
+  ADMIN: 'admin',
+  HAWACO: 'hawaco',
+  DEEPC: 'deepc',
+  TEST: 'test',
+};
 export const formItemLayout = {
   labelCol: { xs: { span: 24 }, sm: { span: 4 } },
   wrapperCol: { xs: { span: 24 }, sm: { span: 24 } },

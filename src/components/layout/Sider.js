@@ -3,10 +3,11 @@ import { Menu, Divider } from 'antd';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import './Layout.scss';
-import { routes } from 'utils/constants/constants';
+import { routes, TYPE_MAP } from 'utils/constants/constants';
 import * as icons from 'assets';
 
 const Sider = (props) => {
+  const { type } = props.match.params;
   const handleClick = ({ key }) => {
     props.history.push(key);
   };
@@ -16,9 +17,29 @@ const Sider = (props) => {
       normalIC: icons.avatar,
       activeIC: icons.avatar,
       text: 'Admin',
-      isActive: props.location.pathname === routes.MAP,
-      route: routes.MAP,
-      isShow: true,
+      isActive: type === TYPE_MAP.ADMIN,
+      route: routes.MAP.replace(':type', TYPE_MAP.ADMIN),
+    },
+    {
+      normalIC: icons.avatar,
+      activeIC: icons.avatar,
+      text: 'Hawaco',
+      isActive: type === TYPE_MAP.HAWACO,
+      route: routes.MAP.replace(':type', TYPE_MAP.HAWACO),
+    },
+    {
+      normalIC: icons.avatar,
+      activeIC: icons.avatar,
+      text: 'Deepc',
+      isActive: type === TYPE_MAP.DEEPC,
+      route: routes.MAP.replace(':type', TYPE_MAP.DEEPC),
+    },
+    {
+      normalIC: icons.avatar,
+      activeIC: icons.avatar,
+      text: 'Test',
+      isActive: type === TYPE_MAP.TEST,
+      route: routes.MAP.replace(':type', TYPE_MAP.TEST),
     },
   ];
   return (
@@ -33,29 +54,26 @@ const Sider = (props) => {
         mode="inline"
       >
         {menuList.map((el) => {
-          if (el.isShow) {
-            return (
-              <Menu.Item
-                key={el.route}
-                style={{
-                  ...itemStyle,
-                  background: el.isActive ? '#2A2D45' : 'transparent',
-                }}
+          return (
+            <Menu.Item
+              key={el.route}
+              style={{
+                ...itemStyle,
+                background: el.isActive ? '#2A2D45' : 'transparent',
+              }}
+            >
+              {el.isActive ? (
+                <img src={el.activeIC} alt="user" className="icon-menu" />
+              ) : (
+                <img src={el.normalIC} alt="user" className="icon-menu" />
+              )}
+              <span
+                className={`menu-item-text ${el.isActive && 'text-active'}`}
               >
-                {el.isActive ? (
-                  <img src={el.activeIC} alt="user" className="icon-menu" />
-                ) : (
-                  <img src={el.normalIC} alt="user" className="icon-menu" />
-                )}
-                <span
-                  className={`menu-item-text ${el.isActive && 'text-active'}`}
-                >
-                  {el.text}
-                </span>
-              </Menu.Item>
-            );
-          }
-          return null;
+                {el.text}
+              </span>
+            </Menu.Item>
+          );
         })}
       </Menu>
     </div>

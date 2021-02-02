@@ -1,7 +1,9 @@
 import React from 'react';
+import { withRouter } from 'react-router-dom';
 import MapGoogle from './components/MapGoogle';
 
 const Map = (props) => {
+  console.log('match', props.match);
   return (
     <div
       style={{
@@ -15,4 +17,4 @@ const Map = (props) => {
   );
 };
 
-export default Map;
+export default withRouter(Map);
