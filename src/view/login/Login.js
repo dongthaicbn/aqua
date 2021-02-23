@@ -4,7 +4,7 @@ import { Form, Input, Button, Divider } from 'antd';
 import { connect } from 'react-redux';
 import * as icons from '../../assets';
 import { FormattedMessage } from 'react-intl';
-// import { requestLogin } from './LoginService';
+import { requestLogin } from './LoginService';
 import { getAccountInfo } from '../../view/system/systemAction';
 import './Login.scss';
 import { routes, TOKEN } from '../../utils/constants/constants';
@@ -17,7 +17,8 @@ const Login = (props) => {
   const onFinish = async (values) => {
     try {
       setLoading(true);
-      // const { data } = await requestLogin(values);
+      const { data } = await requestLogin(values);
+      console.log('data', data);
       // cookie.set(TOKEN, data.id_token);
       localStorage.setItem(TOKEN, 'token123456789');
       // props.getAccountInfo();
