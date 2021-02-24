@@ -5,16 +5,18 @@ import { Menu, Divider } from 'antd';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import './Layout.scss';
-import { routes, TOKEN, TYPE_MAP } from 'utils/constants/constants';
+import { routes, TYPE_MAP } from 'utils/constants/constants';
 import * as icons from 'assets';
 import { isEmpty } from 'utils/helpers/helpers';
-import { listUser } from 'view/userManagement/UserManagementAction';
+import { getUsers } from 'view/userManagement/UserManagementAction';
 
 const { SubMenu } = Menu;
 
 const Sider = (props) => {
   // const { type } = props.match.params;
   // const { pathname } = props.location;
+  const { users } = props;
+
   const menuList = [
     {
       activeIC: icons.avatar,
@@ -50,21 +52,20 @@ const Sider = (props) => {
     return menuList.map((el) => el.route);
   };
   const [openKeys, setOpenKeys] = React.useState([]);
-  const [users, setUsers] = React.useState([]);
-  const fetchData = async () => {
-    try {
-      const { data } = await listUser({ [TOKEN]: localStorage.getItem(TOKEN) });
-      if (!isEmpty(data.data)) setUsers(data.data);
-    } catch (error) {}
+  const fetchData = () => {
+    props.getUsers();
   };
   useEffect(() => {
     fetchData(); // eslint-disable-next-line
   }, []);
 
   const onOpenChange = (keys) => {
+    console.log('keys', keys);
     const latestOpenKey = keys.find((key) => openKeys.indexOf(key) === -1);
     if (getRootMenuKeys().indexOf(latestOpenKey) === -1) {
+      console.log('keys', keys[0]);
       setOpenKeys(keys);
+      handleClick(keys[0]);
     } else {
       setOpenKeys(latestOpenKey ? [latestOpenKey] : []);
     }
@@ -72,8 +73,13 @@ const Sider = (props) => {
   const handleClick = (key) => {
     props.history.push(key);
   };
+  const handleClickMenu = ({ key }) => {
+    console.log('keyMenu:', key);
+    if (key !== routes.USER_MANAGEMENT) {
+      handleClick(routes.MAP.replace(':type', key));
+    } else handleClick(key);
+  };
   // const itemStyle = { padding: 0, width: '100%', background: '#2A2D45' };
-  console.log('users', users);
   return (
     <div className="sider-container">
       {/* <PerfectScrollbar> */}
@@ -86,6 +92,7 @@ const Sider = (props) => {
           mode="inline"
           openKeys={openKeys}
           onOpenChange={onOpenChange}
+          onClick={handleClickMenu}
           className="menu-container"
         >
           {users.map((el, index) =>
@@ -96,7 +103,7 @@ const Sider = (props) => {
                 title={el.Key}
               >
                 <Menu.Item
-                  key={el.Key + index}
+                  key={el.Key}
                   style={{ color: 'white', marginLeft: 16 }}
                 >
                   Option 5
@@ -105,7 +112,6 @@ const Sider = (props) => {
             ) : (
               <Menu.Item
                 key={el.Key}
-                onClick={() => handleClick(el.route)}
                 icon={
                   <img src={icons.avatar} alt="user" className="icon-menu" />
                 }
@@ -131,7 +137,8 @@ const Sider = (props) => {
 export default connect(
   (state) => ({
     account: state.system.account,
+    users: state.system.users,
     role: state.system.role,
   }),
-  null
+  { getUsers }
 )(withRouter(Sider));

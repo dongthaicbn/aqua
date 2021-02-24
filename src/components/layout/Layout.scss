@@ -19,6 +19,10 @@
   .ant-menu-submenu-arrow {
     color: white;
   }
+  .ant-menu:not(.ant-menu-horizontal) .ant-menu-item-selected {
+    background-color: #2a2d45;
+    color: white;
+  }
   .menu-item-text {
     color: white;
     opacity: 0.5;

@@ -1,22 +1,17 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { withRouter } from 'react-router-dom';
 import { Table } from 'antd';
 import { connect } from 'react-redux';
 import './UserManagement.scss';
 import UserModal from './components/UserModal';
-import { listUser } from './UserManagementAction';
-import { isEmpty } from 'utils/helpers/helpers';
-import { TOKEN } from 'utils/constants/constants';
+import { getUsers } from './UserManagementAction';
 import RemoveUserModal from './components/RemoveUserModal';
 
 const UserManagement = (props) => {
-  const [users, setUsers] = useState([]);
+  const { users } = props;
   let isMounted = true;
-  const fetchData = async () => {
-    try {
-      const { data } = await listUser({ [TOKEN]: localStorage.getItem(TOKEN) });
-      if (!isEmpty(data.data) && isMounted) setUsers(data.data);
-    } catch (error) {}
+  const fetchData = () => {
+    if (isMounted) props.getUsers();
   };
   useEffect(() => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -27,8 +22,6 @@ const UserManagement = (props) => {
       isMounted = false;
     };
   }, []);
-  console.log('users', users);
-
   const columns = [
     { title: 'Key', dataIndex: 'Key', key: 'Key' },
     {
@@ -69,7 +62,7 @@ const UserManagement = (props) => {
 };
 export default connect(
   (state) => ({
-    // isLoading: state.system.isLoading
+    users: state.system.users,
   }),
-  {}
+  { getUsers }
 )(withRouter(UserManagement));

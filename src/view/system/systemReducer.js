@@ -5,9 +5,7 @@ const initialState = {
   locale: 'vi',
   account: JSON.parse(localStorage.getItem(ACCOUNT)),
   role: [],
-  isLoading: false,
-  models: [],
-  languages: ['vi', 'en'],
+  users: [],
 };
 
 const system = (state = initialState, action) => {
@@ -20,14 +18,8 @@ const system = (state = initialState, action) => {
         account: action.payload,
         role: action.payload.permission,
       };
-    case constants.FETCH_MODELS:
-      return { ...state, models: action.payload };
-    case constants.FETCH_LANGUAGES:
-      return { ...state, languages: action.payload };
-    case constants.SHOW_LOADING:
-      return { ...state, isLoading: true };
-    case constants.HIDE_LOADING:
-      return { ...state, isLoading: false };
+    case constants.FETCH_USERS:
+      return { ...state, users: action.payload };
     default:
       return state;
   }

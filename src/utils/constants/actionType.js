@@ -1,21 +1,5 @@
 export const CHANGE_LANG = 'CHANGE_LANG';
 export const FETCH_ACCOUNT = 'FETCH_ACCOUNT';
-export const FETCH_CONTACTS = 'FETCH_CONTACTS';
-export const SHOW_LOADING = 'SHOW_LOADING';
-export const HIDE_LOADING = 'HIDE_LOADING';
 
-export const FETCH_SMS = 'FETCH_SMS';
-export const FETCH_USER = 'FETCH_USER';
-export const FETCH_EVENTS = 'FETCH_EVENTS';
-export const FETCH_ROLE = 'FETCH_ROLE';
-export const FETCH_ROLES = 'FETCH_ROLES';
-export const COPY_EVENT = 'COPY_EVENT';
-
-export const FETCH_SOLUTION = 'FETCH_SOLUTION';
-export const FETCH_NOTIFICATION = 'FETCH_NOTIFICATION';
-export const FETCH_MODELS = 'FETCH_MODELS';
-export const FETCH_LANGUAGES = 'FETCH_LANGUAGES';
+// user management
 export const FETCH_USERS = 'FETCH_USERS';
-export const FETCH_HISTORIES = 'FETCH_HISTORIES';
-export const FETCH_SETTING_LANGUAGE = 'FETCH_SETTING_LANGUAGE';
-export const FETCH_SETTING_MODEL = 'FETCH_SETTING_MODEL';
