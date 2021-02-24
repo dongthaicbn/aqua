@@ -5,9 +5,13 @@ import { connect } from 'react-redux';
 import * as icons from '../../assets';
 import { FormattedMessage } from 'react-intl';
 import { requestLogin } from './LoginService';
-import { getAccountInfo } from '../../view/system/systemAction';
+import {
+  getAccountInfo,
+  updateAccountInfo,
+} from '../../view/system/systemAction';
 import './Login.scss';
 import { routes, TOKEN } from '../../utils/constants/constants';
+import { isEmpty } from 'utils/helpers/helpers';
 // import api from '../../utils/helpers/api';
 
 const Login = (props) => {
@@ -18,19 +22,17 @@ const Login = (props) => {
     try {
       setLoading(true);
       const { data } = await requestLogin(values);
-      console.log('data', data);
-      // cookie.set(TOKEN, data.id_token);
-      localStorage.setItem(TOKEN, 'token123456789');
-      // props.getAccountInfo();
-      props.history.push(routes.MAP.replace(':type', 'admin'));
-      setLoading(false);
-    } catch (err) {
-      setLoading(false);
-      if (err && err.data && err.data.status === 401) {
+      if (!isEmpty(data.data)) {
+        localStorage.setItem(TOKEN, data.data.tokenkey);
+        props.history.push(routes.MAP.replace(':type', 'admin'));
+        // props.getAccountInfo();
+        props.updateAccountInfo(data.data);
+      } else {
         setErr('Username hoặc password không chính xác!');
-      } else if (err && err.data && err.data.status === 400) {
-        setErr(err.data.errorMessage);
       }
+    } catch (err) {
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -107,5 +109,5 @@ export default connect(
   (state) => ({
     // isLoading: state.system.isLoading
   }),
-  { getAccountInfo }
+  { getAccountInfo, updateAccountInfo }
 )(withRouter(Login));

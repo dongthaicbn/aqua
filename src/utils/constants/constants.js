@@ -1,11 +1,13 @@
 // common
-export const TOKEN = 'token';
+export const TOKEN = 'tokenkey';
+export const SUCCESS_CODE = 'OK';
+export const IOT_ADMIN_KEY = 'iotadmintokenkey';
 
 // roles
 export const roles = {
-  ADMIN: 'ROLE_ADMIN',
-  USER: 'ROLE_USER',
-  GUEST: 'ROLE_GUEST',
+  ADMIN: 'admin',
+  USER: 'user',
+  GUEST: 'guest',
 };
 
 // routes

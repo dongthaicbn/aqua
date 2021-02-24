@@ -1,24 +1,32 @@
 import React, { useState } from 'react';
-import { Modal, Form, Input, Button } from 'antd';
+import { Modal, Form, Input, Button, Select, message } from 'antd';
 import { FormattedMessage } from 'react-intl';
 import { addUser } from '../UserManagementAction';
+import { TOKEN } from 'utils/constants/constants';
+import { isEmpty } from 'utils/helpers/helpers';
 
-const UserModal = () => {
+const UserModal = (props) => {
+  const { fetchData } = props;
   const [visible, setVisible] = useState(false);
   const [loading, setLoading] = useState(false);
 
   const openModal = () => setVisible(true);
   const closeModal = () => setVisible(false);
 
-  const handleOk = () => {
-    setVisible(false);
-  };
   const onFinish = async (values) => {
     try {
       setLoading(true);
-      const { data } = await addUser(values);
-      console.log('data', data);
-      closeModal();
+      const { data } = await addUser({
+        ...values,
+        [TOKEN]: localStorage.getItem(TOKEN),
+      });
+      if (!isEmpty(data.data)) {
+        if (fetchData) fetchData();
+        message.success('Thêm người dùng thành công');
+        closeModal();
+      } else {
+        message.error(data.message);
+      }
     } catch (err) {
     } finally {
       setLoading(false);
@@ -34,10 +42,11 @@ const UserModal = () => {
         Thêm người dùng
       </Button>
       <Modal
-        title="Basic Modal"
+        title="Thêm người dùng"
         visible={visible}
-        onOk={handleOk}
+        onOk={closeModal}
         onCancel={closeModal}
+        footer={null}
       >
         <Form
           onFinish={onFinish}
@@ -62,6 +71,7 @@ const UserModal = () => {
           <span className="lab-text">Mật khẩu</span>
           <Form.Item
             name="password"
+            required
             rules={[
               {
                 required: true,
@@ -72,7 +82,15 @@ const UserModal = () => {
           >
             <Input.Password placeholder="Nhập mật khẩu" />
           </Form.Item>
+          <span className="lab-text">Permission</span>
+          <Form.Item name="permission">
+            <Select placeholder="Chọn permission">
+              <Select.Option value="admin">Admin</Select.Option>
+              <Select.Option value="user">User</Select.Option>
+            </Select>
+          </Form.Item>
           <Form.Item className="footer-container">
+            <Button onClick={closeModal}>Hủy</Button>
             <Button
               type="primary"
               htmlType="submit"
@@ -80,7 +98,7 @@ const UserModal = () => {
               className="login-btn"
             >
               &nbsp;&nbsp;
-              <FormattedMessage id="IDS_SMS_LOGIN" />
+              <FormattedMessage id="IDS_OK" />
             </Button>
           </Form.Item>
         </Form>

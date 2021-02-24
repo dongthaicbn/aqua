@@ -1,6 +1,6 @@
 import api from '../../utils/helpers/api';
 
-export const viewUser = (data) => {
+export const listUser = (data) => {
   return api({ method: 'post', url: 'api/API/ViewUser', data });
 };
 export const addUser = (data) => {

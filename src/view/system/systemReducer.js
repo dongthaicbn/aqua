@@ -17,7 +17,7 @@ const system = (state = initialState, action) => {
       return {
         ...state,
         account: action.payload,
-        role: action.payload.authorities,
+        role: action.payload.permission,
       };
     case constants.FETCH_MODELS:
       return { ...state, models: action.payload };

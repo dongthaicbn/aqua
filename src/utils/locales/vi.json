@@ -9,5 +9,6 @@
   "IDS_SMS_USER": "Tài khoản",
   "IDS_SMS_TEMPLATE": "Template",
   "IDS_SMS_EVENT": "Event",
-  "IDS_SMS_SEARCH_PHONE": "Search phone"
+  "IDS_SMS_SEARCH_PHONE": "Search phone",
+  "IDS_OK": "OK"
 }

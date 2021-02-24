@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import { Layout } from 'antd';
+import { Layout, Avatar } from 'antd';
 import { MenuUnfoldOutlined, MenuFoldOutlined } from '@ant-design/icons';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { getAccountInfo } from 'view/system/systemAction';
 import 'App.scss';
-import { routes, TOKEN, roles } from 'utils/constants/constants';
+import { routes, TOKEN } from 'utils/constants/constants';
 import Routes from 'Routes';
 import Sider from 'components/layout/Sider';
 import Login from 'view/login/Login';
@@ -25,42 +25,54 @@ const App = (props) => {
   }, []);
   const isLogin = props.location.pathname === routes.LOGIN;
   if (isLogin) {
-    // if (cookie.get(TOKEN)) cookie.remove(TOKEN);
+    if (localStorage.getItem(TOKEN)) localStorage.removeItem(TOKEN);
     return <Login />;
   }
-  const isGuest = !isEmpty(props.role.filter((el) => el.name === roles.GUEST));
+  console.log('account', props.account);
   return (
     <div className="app-container">
-      {isGuest ? (
-        <div className="permission-container">
-          <div>
-            <p>Bạn không có quyền truy cập hệ thống!</p>
-            <p> Vui lòng contact admin để biết thêm thông tin chi tiết.</p>
-          </div>
-        </div>
-      ) : (
+      <Layout>
+        {!collapsed && (
+          <Layout.Sider width={325} style={{ transition: '1s linear' }}>
+            <Sider />
+          </Layout.Sider>
+        )}
         <Layout>
-          {!collapsed && (
-            <Layout.Sider width={325} style={{ transition: '1s linear' }}>
-              <Sider />
-            </Layout.Sider>
-          )}
-          <Layout>
-            <Layout.Header
-              style={{ background: '#173d6a', color: 'white', fontSize: 24 }}
-            >
+          <Layout.Header
+            style={{
+              background: '#173d6a',
+              color: 'white',
+              fontSize: 24,
+              display: 'flex',
+              justifyContent: 'space-between',
+            }}
+          >
+            <div>
               {React.createElement(
                 collapsed ? MenuUnfoldOutlined : MenuFoldOutlined,
                 { className: 'trigger', onClick: toggle }
               )}
               <span style={{ marginLeft: 8, fontSize: 20 }}>IoT Thủy Sản</span>
-            </Layout.Header>
-            <Layout.Content className="content-container">
-              <Routes />
-            </Layout.Content>
-          </Layout>
+            </div>
+            {!isEmpty(props.account) && (
+              <span style={{ marginLeft: 8, fontSize: 20 }}>
+                <Avatar
+                  style={{ backgroundColor: '#f56a00', marginRight: 8 }}
+                  size="large"
+                >
+                  {(props.account.username || 'A')
+                    .substring(0, 1)
+                    .toUpperCase()}
+                </Avatar>
+                {props.account.username || ''}
+              </span>
+            )}
+          </Layout.Header>
+          <Layout.Content className="content-container">
+            <Routes />
+          </Layout.Content>
         </Layout>
-      )}
+      </Layout>
     </div>
   );
 };
