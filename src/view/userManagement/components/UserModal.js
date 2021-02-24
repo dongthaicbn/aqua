@@ -89,17 +89,19 @@ const UserModal = (props) => {
               <Select.Option value="user">User</Select.Option>
             </Select>
           </Form.Item>
-          <Form.Item className="footer-container">
-            <Button onClick={closeModal}>Hủy</Button>
-            <Button
-              type="primary"
-              htmlType="submit"
-              loading={loading}
-              className="login-btn"
-            >
-              &nbsp;&nbsp;
-              <FormattedMessage id="IDS_OK" />
-            </Button>
+          <Form.Item style={{ marginBottom: 0 }}>
+            <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+              <Button onClick={props.closeModal}>Hủy</Button>
+              <Button
+                type="primary"
+                htmlType="submit"
+                loading={loading}
+                style={{ marginLeft: 20 }}
+              >
+                &nbsp;&nbsp;
+                <FormattedMessage id="IDS_OK" />
+              </Button>
+            </div>
           </Form.Item>
         </Form>
       </Modal>
