@@ -11,46 +11,18 @@ export const getAccountInfo = () => async (dispatch) => {
   try {
     const { data } = await api({ method: 'get', url: '/api/v1/accounts/me' });
     dispatch({ type: constants.FETCH_ACCOUNT, payload: data.data });
-  } catch (error) {
-    // handle error common
-  }
+  } catch (error) {}
 };
-
 export const updateAccountInfo = (data) => ({
   type: constants.FETCH_ACCOUNT,
   payload: data,
 });
-
-export const requestLogout = () => {
-  return api({ method: 'get', url: '/api/logout' });
-};
-
-export const actionShowLoading = () => ({
-  type: constants.SHOW_LOADING,
-});
-
-export const actionHideLoading = () => ({
-  type: constants.HIDE_LOADING,
-});
-
-export const getModels = () => async (dispatch) => {
-  try {
-    const { data } = await api({
-      method: 'get',
-      url: '/api/v1/management/settings/models',
-    });
-    dispatch({ type: constants.FETCH_MODELS, payload: data.data });
-  } catch (error) {}
-};
-export const getLanguages = () => async (dispatch) => {
-  try {
-    const { data } = await api({
-      method: 'get',
-      url: '/api/v1/management/settings/languages',
-    });
-    dispatch({ type: constants.FETCH_LANGUAGES, payload: data.data });
-  } catch (error) {}
-};
 export const changePassword = (data) => {
   return api({ method: 'post', url: 'api/API/UserChangePassword', data });
+};
+export const addDeviceID = (data) => {
+  return api({ method: 'post', url: '/api/API/AddDeviceID', data });
+};
+export const removeDeviceID = (data) => {
+  return api({ method: 'post', url: '/api/API/RemoveDeviceID', data });
 };

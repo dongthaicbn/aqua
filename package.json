@@ -21,7 +21,7 @@
     "redux-thunk": "^2.3.0"
   },
   "scripts": {
-    "start": "set \"PORT=80\" && react-app-rewired start",
+    "start": "react-app-rewired start",
     "build:dev": "set \"GENERATE_SOURCEMAP=true\" && react-app-rewired build dev",
     "build:stg": "set \"GENERATE_SOURCEMAP=false\" && react-app-rewired build stg",
     "build:prod": "set \"GENERATE_SOURCEMAP=false\" && react-app-rewired build prod",
