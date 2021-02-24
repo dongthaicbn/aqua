@@ -14,6 +14,7 @@ export const routes = {
   LOGIN: '/login',
   LOGOUT: '/logout',
   MAP: '/map/:type',
+  USER_MANAGEMENT: '/user-management',
 };
 export const TYPE_MAP = {
   ADMIN: 'admin',

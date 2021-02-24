@@ -51,6 +51,6 @@ export const getLanguages = () => async (dispatch) => {
     dispatch({ type: constants.FETCH_LANGUAGES, payload: data.data });
   } catch (error) {}
 };
-export const confirmPassword = (data) => {
-  return api({ method: 'post', url: '/api/v1/confirm-password', data });
+export const removeUser = (data) => {
+  return api({ method: 'post', url: 'api/API/UserChangePassword', data });
 };

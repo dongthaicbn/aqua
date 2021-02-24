@@ -4,6 +4,7 @@ import { routes, TOKEN } from './utils/constants/constants';
 import { isEmpty } from './utils/helpers/helpers';
 import Login from './view/login/Login';
 import Map from './view/map/Map';
+import UserManagement from './view/userManagement/UserManagement';
 
 const Routes = (props) => {
   if (
@@ -16,6 +17,7 @@ const Routes = (props) => {
     <Switch>
       <Redirect exact from="/" to={routes.MAP.replace(':type', 'admin')} />
       <Route exact path={routes.MAP} component={Map} />
+      <Route exact path={routes.USER_MANAGEMENT} component={UserManagement} />
       <Route exact path={routes.LOGIN} component={Login} />
     </Switch>
   );

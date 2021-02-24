@@ -46,7 +46,7 @@ const Login = (props) => {
             <p className="login-header">Water Network Management System</p>
             <Divider style={{ background: 'white' }} />
             <p className="sub-header">
-              Chào mừng bạn đến với hệ thống quản lý mạng nước
+              Chào mừng bạn đến với hệ thống IoT Thủy Sản
             </p>
           </div>
         </div>

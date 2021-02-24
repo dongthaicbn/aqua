@@ -3,9 +3,5 @@ import { TOKEN } from '../../utils/constants/constants';
 
 export const requestLogin = (data) => {
   localStorage.removeItem(TOKEN);
-  return api({
-    method: 'post',
-    url: 'api/API/UserLogin',
-    data,
-  });
+  return api({ method: 'post', url: 'api/API/UserLogin', data });
 };

@@ -8,6 +8,7 @@ import * as icons from 'assets';
 
 const Sider = (props) => {
   const { type } = props.match.params;
+  const { pathname } = props.location;
   const handleClick = ({ key }) => {
     props.history.push(key);
   };
@@ -40,6 +41,13 @@ const Sider = (props) => {
       text: 'Test',
       isActive: type === TYPE_MAP.TEST,
       route: routes.MAP.replace(':type', TYPE_MAP.TEST),
+    },
+    {
+      normalIC: icons.avatar,
+      activeIC: icons.avatar,
+      text: 'Quản lý người dùng',
+      isActive: pathname === routes.USER_MANAGEMENT,
+      route: routes.USER_MANAGEMENT,
     },
   ];
   return (

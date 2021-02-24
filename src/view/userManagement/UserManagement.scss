@@ -1,0 +1,10 @@
+.user-wrapper {
+  .user-header {
+    display: flex;
+    justify-content: space-between;
+    padding: 16px;
+    .header-text {
+      font-weight: 500;
+    }
+  }
+}

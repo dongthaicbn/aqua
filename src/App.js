@@ -53,9 +53,7 @@ const App = (props) => {
                 collapsed ? MenuUnfoldOutlined : MenuFoldOutlined,
                 { className: 'trigger', onClick: toggle }
               )}
-              <span style={{ marginLeft: 8, fontSize: 20 }}>
-                Quản lý mạng nước
-              </span>
+              <span style={{ marginLeft: 8, fontSize: 20 }}>IoT Thủy Sản</span>
             </Layout.Header>
             <Layout.Content className="content-container">
               <Routes />
