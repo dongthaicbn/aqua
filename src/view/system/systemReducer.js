@@ -1,8 +1,9 @@
+import { ACCOUNT } from 'utils/constants/constants';
 import * as constants from '../../utils/constants/actionType';
 
 const initialState = {
   locale: 'vi',
-  account: {},
+  account: JSON.parse(localStorage.getItem(ACCOUNT)),
   role: [],
   isLoading: false,
   models: [],

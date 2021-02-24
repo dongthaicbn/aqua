@@ -10,7 +10,7 @@ import {
   updateAccountInfo,
 } from '../../view/system/systemAction';
 import './Login.scss';
-import { routes, TOKEN } from '../../utils/constants/constants';
+import { ACCOUNT, routes, TOKEN } from '../../utils/constants/constants';
 import { isEmpty } from 'utils/helpers/helpers';
 // import api from '../../utils/helpers/api';
 
@@ -24,6 +24,7 @@ const Login = (props) => {
       const { data } = await requestLogin(values);
       if (!isEmpty(data.data)) {
         localStorage.setItem(TOKEN, data.data.tokenkey);
+        localStorage.setItem(ACCOUNT, JSON.stringify(data.data));
         props.history.push(routes.MAP.replace(':type', 'admin'));
         // props.getAccountInfo();
         props.updateAccountInfo(data.data);

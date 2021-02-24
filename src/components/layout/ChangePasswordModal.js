@@ -1,122 +1,96 @@
-import React from 'react';
-import { Form, Modal, Input, message, Icon } from 'antd';
-import { changePassword } from '../../view/system/systemAction';
+import React, { useState } from 'react';
+import { Form, Modal, Input, message, Button } from 'antd';
+import { FormattedMessage } from 'react-intl';
+import { changePassword } from 'view/system/systemAction';
+import { ACCOUNT, TOKEN } from 'utils/constants/constants';
+import { isEmpty } from 'utils/helpers/helpers';
 
-const ChangPasswordModal = Form.create()((props) => {
-  const { getFieldDecorator, validateFields } = props.form;
-  const handleOk = (e) => {
-    validateFields(async (err, values) => {
-      if (!err) {
-        if (values.confirmPassword.trim() !== values.newPassword.trim()) {
-          message.error('Xác nhận mật khẩu không chính xác!');
-        } else {
-          try {
-            const data = {
-              currentPassword: values.currentPassword,
-              newPassword: values.newPassword,
-            };
-            await changePassword(data);
-            handleCancel();
-            message.success('Thay đổi mật khẩu thành công!');
-          } catch {
-            handleCancel();
-            message.error('Thay đổi mật khẩu thất bại!');
-          }
-        }
+const ChangePasswordModal = (props) => {
+  const [loading, setLoading] = useState(false);
+
+  const onFinish = async (values) => {
+    try {
+      setLoading(true);
+      const { data } = await changePassword({
+        ...values,
+        [TOKEN]: localStorage.getItem(TOKEN),
+      });
+      if (!isEmpty(data.data)) {
+        message.success('Thay đổi mật khẩu thành công');
+        localStorage.setItem(TOKEN, data.data.tokenkey);
+        localStorage.setItem(ACCOUNT, JSON.stringify(data.data));
+        props.closeModal();
+      } else {
+        message.error(data.message);
       }
-    });
+    } catch (err) {
+    } finally {
+      setLoading(false);
+    }
   };
 
-  const handleCancel = (e) => {
-    props.handleCloseModal();
+  const onFinishFailed = (errorInfo) => {
+    console.log('Failed:', errorInfo);
   };
 
   return (
     <Modal
       title="Thay đổi mật khẩu"
-      // confirmLoading={confirmLoading}
       visible={true}
-      centered
-      okText="Submit"
-      onOk={handleOk}
-      onCancel={handleCancel}
-      // maskClosable={false}
+      onOk={props.closeModal}
+      onCancel={props.closeModal}
+      footer={null}
     >
-      <Form className="common-modal-container">
-        <div className="item-container">
-          <span className="title-item">Mật khẩu cũ</span>
-          <Form.Item>
-            {getFieldDecorator('currentPassword', {
-              rules: [
-                {
-                  required: true,
-                  whitespace: true,
-                  message: 'Vui lòng, nhập mật khẩu cũ!',
-                },
-              ],
-            })(
-              <Input
-                type="password"
-                prefix={<Icon type="lock" />}
-                placeholder="Điền mật khẩu cũ"
-              />
-            )}
-          </Form.Item>
-        </div>
-        <div className="item-container">
-          <span className="title-item">Mật khẩu mới</span>
-          <span className="reg-text-pass">
-            (tối thiểu 8 kí tự bao gồm chữ hoa, chữ thường, số và kí tự đặc
-            biệt)
-          </span>
-          <Form.Item>
-            {getFieldDecorator('newPassword', {
-              rules: [
-                {
-                  required: true,
-                  whitespace: true,
-                  message: 'Vui lòng, nhập mật khẩu mới!',
-                },
-                {
-                  pattern:
-                    '^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])(?=.{8,})',
-                  message: 'Mật khẩu không hợp lệ!',
-                },
-              ],
-              getValueFromEvent: (e) => e.target.value.trim(),
-            })(
-              <Input
-                type="password"
-                prefix={<Icon type="lock" />}
-                placeholder="Điền mật khẩu mới"
-              />
-            )}
-          </Form.Item>
-        </div>
-        <div className="item-container">
-          <span className="title-item">Nhập lại mật khẩu mới</span>
-          <Form.Item>
-            {getFieldDecorator('confirmPassword', {
-              rules: [
-                {
-                  required: true,
-                  whitespace: true,
-                  message: 'Vui lòng, nhập mật khẩu mới!',
-                },
-              ],
-              getValueFromEvent: (e) => e.target.value.trim(),
-            })(
-              <Input
-                type="password"
-                prefix={<Icon type="lock" />}
-                placeholder="Điền mật khẩu mới"
-              />
-            )}
-          </Form.Item>
-        </div>
+      <Form
+        onFinish={onFinish}
+        onFinishFailed={onFinishFailed}
+        className="login-form"
+      >
+        <span className="lab-text">Mật khẩu cũ</span>
+        <Form.Item
+          name="old_password"
+          required
+          rules={[
+            {
+              required: true,
+              whitespace: true,
+              message: 'Hãy nhập mật khẩu cũ!',
+            },
+          ]}
+        >
+          <Input.Password placeholder="Nhập mật khẩu cũ" />
+        </Form.Item>
+        <span className="lab-text">Mật khẩu mới</span>
+        <Form.Item
+          name="new_password"
+          required
+          rules={[
+            {
+              required: true,
+              whitespace: true,
+              message: 'Hãy nhập mật khẩu mới!',
+            },
+          ]}
+        >
+          <Input.Password placeholder="Nhập mật khẩu mới" />
+        </Form.Item>
+        <Form.Item style={{ marginBottom: 0 }}>
+          <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+            <Button onClick={props.closeModal}>Hủy</Button>
+            <Button
+              type="primary"
+              htmlType="submit"
+              loading={loading}
+              style={{ marginLeft: 20 }}
+            >
+              &nbsp;&nbsp;
+              <FormattedMessage id="IDS_OK" />
+            </Button>
+          </div>
+        </Form.Item>
       </Form>
     </Modal>
   );
-});
+};
 
-export default ChangPasswordModal;
+export default ChangePasswordModal;

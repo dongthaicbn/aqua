@@ -1,6 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import { Layout, Avatar } from 'antd';
-import { MenuUnfoldOutlined, MenuFoldOutlined } from '@ant-design/icons';
+import { Layout, Avatar, Menu, Dropdown } from 'antd';
+import {
+  MenuUnfoldOutlined,
+  MenuFoldOutlined,
+  DownOutlined,
+} from '@ant-design/icons';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { getAccountInfo } from 'view/system/systemAction';
@@ -10,9 +14,13 @@ import Routes from 'Routes';
 import Sider from 'components/layout/Sider';
 import Login from 'view/login/Login';
 import { isEmpty } from 'utils/helpers/helpers';
+import ChangePasswordModal from 'components/layout/ChangePasswordModal';
+import LogoutModal from 'components/layout/LogoutModal';
 
 const App = (props) => {
   const [collapsed, setCollapsed] = useState(true);
+  const [visible, setVisible] = useState('');
+
   const toggle = () => setCollapsed(!collapsed);
   useEffect(() => {
     if (
@@ -23,12 +31,22 @@ const App = (props) => {
     }
     // eslint-disable-next-line
   }, []);
+
+  const handleClick = ({ key }) => setVisible(key);
+  const menu = (
+    <Menu onClick={handleClick}>
+      <Menu.Item key="changePassword">Thay đổi mật khẩu</Menu.Item>
+      <Menu.Divider />
+      <Menu.Item key="logout">Đăng xuất</Menu.Item>
+    </Menu>
+  );
+
   const isLogin = props.location.pathname === routes.LOGIN;
   if (isLogin) {
     if (localStorage.getItem(TOKEN)) localStorage.removeItem(TOKEN);
     return <Login />;
   }
-  console.log('account', props.account);
+
   return (
     <div className="app-container">
       <Layout>
@@ -55,17 +73,23 @@ const App = (props) => {
               <span style={{ marginLeft: 8, fontSize: 20 }}>IoT Thủy Sản</span>
             </div>
             {!isEmpty(props.account) && (
-              <span style={{ marginLeft: 8, fontSize: 20 }}>
-                <Avatar
-                  style={{ backgroundColor: '#f56a00', marginRight: 8 }}
-                  size="large"
+              <Dropdown overlay={menu} trigger={['click']}>
+                <span
+                  style={{ marginLeft: 8, fontSize: 20, cursor: 'pointer' }}
                 >
-                  {(props.account.username || 'A')
-                    .substring(0, 1)
-                    .toUpperCase()}
-                </Avatar>
-                {props.account.username || ''}
-              </span>
+                  <Avatar
+                    style={{ backgroundColor: '#f56a00', marginRight: 8 }}
+                    size="large"
+                  >
+                    {(props.account.username || 'A')
+                      .substring(0, 1)
+                      .toUpperCase()}
+                  </Avatar>
+                  {props.account.username || ''}
+                  &nbsp;
+                  <DownOutlined />
+                </span>
+              </Dropdown>
             )}
           </Layout.Header>
           <Layout.Content className="content-container">
@@ -73,6 +97,12 @@ const App = (props) => {
           </Layout.Content>
         </Layout>
       </Layout>
+      {visible === 'changePassword' && (
+        <ChangePasswordModal closeModal={() => setVisible('')} />
+      )}
+      {visible === 'logout' && (
+        <LogoutModal closeModal={() => setVisible('')} />
+      )}
     </div>
   );
 };

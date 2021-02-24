@@ -1,5 +1,6 @@
 // common
 export const TOKEN = 'tokenkey';
+export const ACCOUNT = 'ACCOUNT';
 export const SUCCESS_CODE = 'OK';
 export const IOT_ADMIN_KEY = 'iotadmintokenkey';
 
