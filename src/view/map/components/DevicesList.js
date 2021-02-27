@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
 import { Collapse } from 'antd';
-import { PlusOutlined, DeleteOutlined } from '@ant-design/icons';
+import { PlusOutlined, DeleteOutlined, EditOutlined } from '@ant-design/icons';
 import { withRouter } from 'react-router-dom';
 import '../Map.scss';
 import { isEmpty } from 'utils/helpers/helpers';
 import AddDeviceModal from './AddDeviceModal';
 import RemoveDeviceModal from './RemoveDeviceModal';
+import EditDeviceModal from './EditDeviceModal';
 
 const { Panel } = Collapse;
 
@@ -42,30 +43,29 @@ const DevicesList = (props) => {
                 el.Value.listDevices.map((it) => (
                   <p key={it} className="device-item ">
                     {it}
-                    <DeleteOutlined
-                      className="icon-center"
-                      onClick={(event) => {
-                        setVisible('remove');
-                        itemSelected = el;
-                        device_id = it;
-                        event.stopPropagation();
-                      }}
-                    />
-                  </p>
-                ))}
-              {!isEmpty(el.Value.listDevices) &&
-                el.Value.listDevices.map((it) => (
-                  <p key={it} className="device-item ">
-                    {it}
-                    <DeleteOutlined
-                      className="icon-center"
-                      onClick={(event) => {
-                        setVisible('remove');
-                        itemSelected = el;
-                        device_id = it;
-                        event.stopPropagation();
-                      }}
-                    />
+                    <span style={{ display: 'flex' }}>
+                      <EditOutlined
+                        className="icon-center"
+                        title="Chỉnh sửa cấu hình"
+                        style={{ marginRight: 8 }}
+                        onClick={(event) => {
+                          itemSelected = el;
+                          device_id = it;
+                          setVisible('edit');
+                          event.stopPropagation();
+                        }}
+                      />
+                      <DeleteOutlined
+                        className="icon-center"
+                        title="Xóa device"
+                        onClick={(event) => {
+                          itemSelected = el;
+                          device_id = it;
+                          setVisible('remove');
+                          event.stopPropagation();
+                        }}
+                      />
+                    </span>
                   </p>
                 ))}
             </Panel>
@@ -80,6 +80,14 @@ const DevicesList = (props) => {
       )}
       {visible === 'remove' && (
         <RemoveDeviceModal
+          fetchData={fetchUserList}
+          item={itemSelected}
+          device_id={device_id}
+          handleClose={handleCloseModal}
+        />
+      )}
+      {visible === 'edit' && (
+        <EditDeviceModal
           fetchData={fetchUserList}
           item={itemSelected}
           device_id={device_id}
