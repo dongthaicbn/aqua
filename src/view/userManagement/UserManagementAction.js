@@ -24,3 +24,9 @@ export const addUser = (data) => {
 export const removeUser = (data) => {
   return api({ method: 'post', url: 'api/API/RemoveUser', data });
 };
+export const addDeviceID = (data) => {
+  return api({ method: 'post', url: 'api/API/AddDeviceID', data });
+};
+export const removeDeviceID = (data) => {
+  return api({ method: 'post', url: 'api/API/RemoveDeviceID', data });
+};

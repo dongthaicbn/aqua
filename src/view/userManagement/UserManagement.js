@@ -6,6 +6,8 @@ import './UserManagement.scss';
 import UserModal from './components/UserModal';
 import { getUsers } from './UserManagementAction';
 import RemoveUserModal from './components/RemoveUserModal';
+import AddDeviceModal from './components/AddDeviceModal';
+import RemoveDeviceModal from './components/RemoveDeviceModal';
 
 const UserManagement = (props) => {
   const { users } = props;
@@ -14,11 +16,11 @@ const UserManagement = (props) => {
     if (isMounted) props.getUsers();
   };
   useEffect(() => {
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line
     isMounted = true;
     fetchData();
     return () => {
-      // eslint-disable-next-line react-hooks/exhaustive-deps
+      // eslint-disable-next-line
       isMounted = false;
     };
   }, []);
@@ -41,11 +43,38 @@ const UserManagement = (props) => {
       },
     },
     {
+      title: 'Devices',
+      dataIndex: 'listDevices',
+      key: 'listDevices',
+      width: 400,
+      render: (value, row, index) => {
+        // return row.Value.listDevices.join(', ');
+        return (
+          <div>
+            {row.Value.listDevices.map((el) => (
+              <RemoveDeviceModal
+                fetchData={fetchData}
+                item={row}
+                device_id={el}
+              />
+            ))}
+          </div>
+        );
+      },
+    },
+    {
       title: 'Action',
       dataIndex: 'action',
       key: 'action',
+      width: 260,
       render: (value, row, index) => {
-        return <RemoveUserModal item={row} fetchData={fetchData} />;
+        return (
+          <>
+            <AddDeviceModal fetchData={fetchData} item={row} />
+            &nbsp;&nbsp;&nbsp;
+            <RemoveUserModal item={row} fetchData={fetchData} />
+          </>
+        );
       },
     },
   ];

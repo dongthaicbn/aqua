@@ -1,28 +1,32 @@
 import React, { useState } from 'react';
-import { Modal, Form, Input, Button, Select, message } from 'antd';
+import { Modal, Form, Input, Button, message } from 'antd';
 import { FormattedMessage } from 'react-intl';
-import { addUser } from '../UserManagementAction';
+import { addDeviceID } from '../UserManagementAction';
 import { TOKEN } from 'utils/constants/constants';
 import { isEmpty } from 'utils/helpers/helpers';
 
-const UserModal = (props) => {
-  const { fetchData } = props;
+const AddDeviceModal = (props) => {
+  const { fetchData, item } = props;
+  const [form] = Form.useForm();
   const [visible, setVisible] = useState(false);
   const [loading, setLoading] = useState(false);
 
   const openModal = () => setVisible(true);
-  const closeModal = () => setVisible(false);
+  const closeModal = () => {
+    setVisible(false);
+    form.resetFields();
+  };
 
   const onFinish = async (values) => {
     try {
       setLoading(true);
-      const { data } = await addUser({
+      const { data } = await addDeviceID({
         ...values,
         [TOKEN]: localStorage.getItem(TOKEN),
       });
       if (!isEmpty(data.data)) {
         if (fetchData) fetchData();
-        message.success('Thêm người dùng thành công');
+        message.success('Thêm device thành công');
         closeModal();
       } else {
         message.error(data.message);
@@ -39,10 +43,10 @@ const UserModal = (props) => {
   return (
     <>
       <Button type="primary" onClick={openModal}>
-        Thêm người dùng
+        Thêm device
       </Button>
       <Modal
-        title="Thêm người dùng"
+        title="Thêm device"
         visible={visible}
         onOk={closeModal}
         onCancel={closeModal}
@@ -52,43 +56,27 @@ const UserModal = (props) => {
           onFinish={onFinish}
           onFinishFailed={onFinishFailed}
           className="login-form"
+          form={form}
+          initialValues={{ username: item.Value.username }}
         >
-          <span className="lab-text">Tài khoản</span>
+          <span className="lab-text">Username</span>
+          <Form.Item name="username">
+            <Input disabled />
+          </Form.Item>
+          <span className="lab-text">Id thiết bị</span>
           <Form.Item
-            name="username"
+            name="device_id"
             rules={[
               {
                 required: true,
                 whitespace: true,
-                message: 'Hãy nhập username!',
-              },
-              { max: 50, message: 'Bạn không thể nhập quá 50 kí tự!' },
-              { pattern: "^[_'.@A-Za-z0-9-]*$", message: 'Hãy nhập username' },
-            ]}
-          >
-            <Input placeholder="Nhập tài khoản" />
-          </Form.Item>
-          <span className="lab-text">Mật khẩu</span>
-          <Form.Item
-            name="password"
-            required
-            rules={[
-              {
-                required: true,
-                whitespace: true,
-                message: 'Hãy nhập password!',
+                message: 'Hãy nhập Id thiết bị!',
               },
             ]}
           >
-            <Input.Password placeholder="Nhập mật khẩu" />
+            <Input placeholder="Nhập Id thiết bị" />
           </Form.Item>
-          <span className="lab-text">Permission</span>
-          <Form.Item name="permission">
-            <Select placeholder="Chọn permission">
-              <Select.Option value="admin">Admin</Select.Option>
-              <Select.Option value="user">User</Select.Option>
-            </Select>
-          </Form.Item>
+
           <Form.Item style={{ marginBottom: 0 }}>
             <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
               <Button onClick={closeModal}>Hủy</Button>
@@ -108,4 +96,4 @@ const UserModal = (props) => {
     </>
   );
 };
-export default UserModal;
+export default AddDeviceModal;

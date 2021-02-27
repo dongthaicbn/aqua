@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { Menu, Divider } from 'antd';
-// import 'react-perfect-scrollbar/dist/css/styles.css';
-// import PerfectScrollbar from 'react-perfect-scrollbar';
+import 'react-perfect-scrollbar/dist/css/styles.css';
+import PerfectScrollbar from 'react-perfect-scrollbar';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import './Layout.scss';
@@ -82,54 +82,56 @@ const Sider = (props) => {
   // const itemStyle = { padding: 0, width: '100%', background: '#2A2D45' };
   return (
     <div className="sider-container">
-      {/* <PerfectScrollbar> */}
-      <div className="logo-container">
-        <img src={icons.logo_white} alt="logo" />
-      </div>
-      <Divider style={{ background: 'white' }} />
-      {!isEmpty(users) && (
-        <Menu
-          mode="inline"
-          openKeys={openKeys}
-          onOpenChange={onOpenChange}
-          onClick={handleClickMenu}
-          className="menu-container"
-        >
-          {users.map((el, index) =>
-            !isEmpty(el.Value.listDevices) ? (
-              <SubMenu
-                key={el.Key}
-                icon={<img src={icons.avatar} alt="" className="icon-menu" />}
-                title={el.Key}
-              >
+      <PerfectScrollbar>
+        <div className="logo-container">
+          <img src={icons.logo_white} alt="logo" />
+        </div>
+        <Divider style={{ background: 'white' }} />
+        {!isEmpty(users) && (
+          <Menu
+            mode="inline"
+            openKeys={openKeys}
+            onOpenChange={onOpenChange}
+            onClick={handleClickMenu}
+            className="menu-container"
+          >
+            {users.map((el, index) =>
+              !isEmpty(el.Value.listDevices) ? (
+                <SubMenu
+                  key={el.Key}
+                  icon={<img src={icons.avatar} alt="" className="icon-menu" />}
+                  title={el.Key}
+                >
+                  {el.Value.listDevices.map((it) => (
+                    <Menu.Item
+                      key={it}
+                      style={{ color: 'white', marginLeft: 16 }}
+                    >
+                      {it}
+                    </Menu.Item>
+                  ))}
+                </SubMenu>
+              ) : (
                 <Menu.Item
                   key={el.Key}
-                  style={{ color: 'white', marginLeft: 16 }}
+                  icon={
+                    <img src={icons.avatar} alt="user" className="icon-menu" />
+                  }
                 >
-                  Option 5
+                  {el.Key}
                 </Menu.Item>
-              </SubMenu>
-            ) : (
-              <Menu.Item
-                key={el.Key}
-                icon={
-                  <img src={icons.avatar} alt="user" className="icon-menu" />
-                }
-              >
-                {el.Key}
-              </Menu.Item>
-            )
-          )}
-          <Menu.Item
-            key={routes.USER_MANAGEMENT}
-            onClick={() => handleClick(routes.USER_MANAGEMENT)}
-            icon={<img src={icons.avatar} alt="" className="icon-menu" />}
-          >
-            Quản lý người dùng
-          </Menu.Item>
-        </Menu>
-      )}
-      {/* </PerfectScrollbar> */}
+              )
+            )}
+            <Menu.Item
+              key={routes.USER_MANAGEMENT}
+              onClick={() => handleClick(routes.USER_MANAGEMENT)}
+              icon={<img src={icons.avatar} alt="" className="icon-menu" />}
+            >
+              Quản lý người dùng
+            </Menu.Item>
+          </Menu>
+        )}
+      </PerfectScrollbar>
     </div>
   );
 };
