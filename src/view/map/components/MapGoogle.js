@@ -7,7 +7,9 @@ import {
 } from 'react-google-maps';
 import { compose, withProps } from 'recompose';
 
-export const KEY_GOOGLE_MAP = 'AIzaSyA9SPYP838bh5o7pBC8xA7632sDJ0jJwxM';
+// export const KEY_GOOGLE_MAP = 'AIzaSyA9SPYP838bh5o7pBC8xA7632sDJ0jJwxM';
+export const KEY_GOOGLE_MAP = 'AIzaSyDemuTXbh1ONO1hYzbfP-TGCkPRI2jwaPA';
+
 const BLUE = '#00B6F3';
 const WHITE = '#FFFFFF';
 
