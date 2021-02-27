@@ -1,145 +1,29 @@
-.solution-container {
-  .filter-container {
-    margin-bottom: 20px;
-    display: flex;
-    .left-action {
-      width: 100%;
-    }
-    .right-action {
-      display: flex;
-    }
-  }
-  .total-text {
-    font-size: 18px;
-  }
-  .event-icon {
-    font-size: 18px;
-    .anticon {
-      margin: 0 7px;
-      cursor: pointer;
-      color: #2196f3;
-    }
-    .disabled-action {
-      cursor: not-allowed;
-      opacity: 0.5;
-      color: #9e9e9e;
-    }
-  }
-}
 .upper-case {
   text-transform: uppercase;
 }
-.theme-modal {
-  .ant-modal-header {
-    border-bottom: none;
-    color: #354053;
-    padding: 30px 30px 10px;
-    .ant-modal-title {
-      font-size: 16px;
-    }
-  }
-  &.recommend-modal {
-    .ant-modal-body {
-      color: #8e9093;
-      padding: 10px 30px;
-      font-size: 14px;
-      max-height: 625px;
-      overflow: auto;
-    }
-  }
-  .ant-modal-body {
-    color: #8e9093;
-    padding: 10px 30px;
-    font-size: 14px;
-  }
-  .ant-modal-footer {
-    border-top: none;
-    padding: 10px 16px 30px;
-    .ant-btn {
-      text-transform: uppercase;
-      height: 36px;
-      font-size: 14px;
-      &.ant-btn-link {
-        color: #354053;
-      }
-      &.ant-btn-primary {
-        border-radius: 18px;
-        background: #47bac1;
-        border-color: #47bac1;
-        width: 134px;
-        color: #fff;
-      }
-      &.ant-btn-primary[disabled] {
-        opacity: 0.7;
-      }
-    }
-  }
-
-  .review-content {
-    .review-reason {
-      min-height: 105px;
-      resize: none;
-    }
-    .upload-content {
-      background: #fafafa;
-      padding-top: 20px;
-      .list-file-upload {
-        line-height: normal;
-        padding: 0 20px;
-        max-height: 205px;
-        overflow: auto;
-        .file-item {
-          display: flex;
-          margin-bottom: 10px;
-          align-items: center;
-          justify-content: space-between;
-          .file-content {
-            display: flex;
-            overflow: hidden;
-            align-items: center;
-            padding-right: 15px;
-            .file-name {
-              white-space: nowrap;
-              text-overflow: ellipsis;
-              overflow: hidden;
-              margin-left: 10px;
-              &.upload-failed {
-                color: #e64d3b;
-              }
-            }
-            .anticon-file-zip {
-              font-size: 14px;
-            }
-          }
-
-          .file-action {
-            display: flex;
-            .btn-icon {
-              width: 20px;
-              margin: 0 5px;
-              cursor: pointer;
-              &.btn-download {
-                padding: 2px;
-              }
-            }
-          }
-        }
-      }
-      .ant-upload-drag {
-        border: none;
-        .ant-upload-text {
-          font-size: 14px;
-          text-decoration: underline;
-          color: #354053;
-          opacity: 0.44;
-        }
-      }
-    }
+.map-container {
+  height: calc(100vh - 64px);
+  width: 100%;
+  background: #f5f5f5;
+}
+.device-list {
+  position: absolute;
+  right: 0;
+  top: 0;
+  width: 250px;
+  background: white;
+  height: 100%;
+  padding: 16px 0;
+  overflow: auto;
+  .device-item {
+    display: flex;
+    justify-content: space-between;
+    background: #e6f7ff;
+    padding: 4px 10px;
   }
 }
-.item-drag {
-  padding: 10px 20px;
-  border: solid 1px #ccc;
-  margin: 5px 0;
-  cursor: pointer;
+.icon-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }

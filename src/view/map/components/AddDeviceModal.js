@@ -3,17 +3,15 @@ import { Modal, Form, Input, Button, message } from 'antd';
 import { FormattedMessage } from 'react-intl';
 import { TOKEN } from 'utils/constants/constants';
 import { isEmpty } from 'utils/helpers/helpers';
-import { addDeviceID } from '../UserManagementAction';
+import { addDeviceID } from 'view/userManagement/UserManagementAction';
 
 const AddDeviceModal = (props) => {
-  const { fetchData, item } = props;
+  const { fetchData, item, handleClose } = props;
   const [form] = Form.useForm();
-  const [visible, setVisible] = useState(false);
   const [loading, setLoading] = useState(false);
 
-  const openModal = () => setVisible(true);
   const closeModal = () => {
-    setVisible(false);
+    handleClose();
     form.resetFields();
   };
 
@@ -42,12 +40,9 @@ const AddDeviceModal = (props) => {
   };
   return (
     <>
-      <Button type="primary" onClick={openModal}>
-        Thêm device
-      </Button>
       <Modal
         title="Thêm device"
-        visible={visible}
+        visible={true}
         onOk={closeModal}
         onCancel={closeModal}
         footer={null}

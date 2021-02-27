@@ -1,32 +1,30 @@
 import React, { useState } from 'react';
 import { Modal, Form, Input, Button, message } from 'antd';
 import { FormattedMessage } from 'react-intl';
+import { removeDeviceID } from 'view/userManagement/UserManagementAction';
 import { TOKEN } from 'utils/constants/constants';
 import { isEmpty } from 'utils/helpers/helpers';
-import { addDeviceID } from '../UserManagementAction';
 
-const AddDeviceModal = (props) => {
-  const { fetchData, item } = props;
+const RemoveDeviceModal = (props) => {
+  const { fetchData, item, device_id, handleClose } = props;
   const [form] = Form.useForm();
-  const [visible, setVisible] = useState(false);
   const [loading, setLoading] = useState(false);
 
-  const openModal = () => setVisible(true);
   const closeModal = () => {
-    setVisible(false);
+    handleClose();
     form.resetFields();
   };
 
   const onFinish = async (values) => {
     try {
       setLoading(true);
-      const { data } = await addDeviceID({
+      const { data } = await removeDeviceID({
         ...values,
         [TOKEN]: localStorage.getItem(TOKEN),
       });
       if (!isEmpty(data.data)) {
         if (fetchData) fetchData();
-        message.success('Thêm device thành công');
+        message.success('Remove device thành công');
         closeModal();
       } else {
         message.error(data.message);
@@ -42,12 +40,9 @@ const AddDeviceModal = (props) => {
   };
   return (
     <>
-      <Button type="primary" onClick={openModal}>
-        Thêm device
-      </Button>
       <Modal
-        title="Thêm device"
-        visible={visible}
+        title="Remove device"
+        visible={true}
         onOk={closeModal}
         onCancel={closeModal}
         footer={null}
@@ -56,25 +51,20 @@ const AddDeviceModal = (props) => {
           onFinish={onFinish}
           onFinishFailed={onFinishFailed}
           className="login-form"
+          initialValues={{
+            username: item.Value.username,
+            device_id: device_id,
+          }}
           form={form}
-          initialValues={{ username: item.Value.username }}
         >
+          <p className="lab-text">Bạn có chắc chắn muốn xóa device dưới đây?</p>
           <span className="lab-text">Username</span>
           <Form.Item name="username">
             <Input disabled />
           </Form.Item>
           <span className="lab-text">Id thiết bị</span>
-          <Form.Item
-            name="device_id"
-            rules={[
-              {
-                required: true,
-                whitespace: true,
-                message: 'Hãy nhập Id thiết bị!',
-              },
-            ]}
-          >
-            <Input placeholder="Nhập Id thiết bị" />
+          <Form.Item name="device_id">
+            <Input disabled />
           </Form.Item>
 
           <Form.Item style={{ marginBottom: 0 }}>
@@ -96,4 +86,4 @@ const AddDeviceModal = (props) => {
     </>
   );
 };
-export default AddDeviceModal;
+export default RemoveDeviceModal;

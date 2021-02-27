@@ -18,6 +18,7 @@ const Routes = (props) => {
       <Redirect exact from="/" to={routes.MAP.replace(':type', 'admin')} />
       <Route exact path={routes.MAP} component={Map} />
       <Route exact path={routes.USER_MANAGEMENT} component={UserManagement} />
+      <Route exact path={routes.DEVICE_MANAGEMENT} component={Map} />
       <Route exact path={routes.LOGIN} component={Login} />
     </Switch>
   );

@@ -18,6 +18,7 @@ export const routes = {
   LOGOUT: '/logout',
   MAP: '/map/:type',
   USER_MANAGEMENT: '/user-management',
+  DEVICE_MANAGEMENT: '/device',
 };
 export const TYPE_MAP = {
   ADMIN: 'admin',
