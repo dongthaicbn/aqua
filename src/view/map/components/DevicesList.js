@@ -15,8 +15,6 @@ let device_id = null;
 const DevicesList = (props) => {
   const { userInfo, userList, fetchUserList } = props;
   const [visible, setVisible] = useState(null);
-  console.log('userInfo', userInfo, userList);
-  console.log('visible', visible);
 
   const genExtra = (item) => (
     <PlusOutlined
@@ -91,6 +89,9 @@ const DevicesList = (props) => {
           fetchData={fetchUserList}
           item={itemSelected}
           device_id={device_id}
+          deviceInfo={userInfo.list_device_info.find(
+            (v) => v.device_id === device_id
+          )}
           handleClose={handleCloseModal}
         />
       )}
