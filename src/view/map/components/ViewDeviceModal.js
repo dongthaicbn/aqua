@@ -10,7 +10,7 @@ import {
   DatePicker,
   Empty,
 } from 'antd';
-import { readDeviceByDay } from '../MapAction';
+import { readDeviceByDay, pumpControl } from '../MapAction';
 import { TOKEN } from 'utils/constants/constants';
 import { isEmpty } from 'utils/helpers/helpers';
 
@@ -36,6 +36,23 @@ const ViewDeviceModal = (props) => {
       if (!isEmpty(data.data)) {
         console.log('test', data.data);
         setDevice(data.data);
+      } else {
+        message.error(data.message);
+      }
+    } catch (error) {}
+  };
+  const handlePumpControl = async (pumpValue) => {
+    try {
+      const { data } = await pumpControl({
+        device_id,
+        [TOKEN]: localStorage.getItem(TOKEN),
+        pumpControl: pumpValue ? 'ON' : 'OFF',
+      });
+      if (!isEmpty(data.code === 'OK')) {
+        fetchDeviceDetail();
+        message.success(
+          pumpValue ? 'Bật máy bơm thành công' : 'Tắt máy bơm thành công'
+        );
       } else {
         message.error(data.message);
       }
@@ -67,11 +84,15 @@ const ViewDeviceModal = (props) => {
             )}
             <span className="title-field title-modal-text">
               <span style={{ marginRight: 12 }}>Chọn ngày hiển thị</span>
-              <DatePicker
-                onChange={onChange}
-                defaultValue={moment(moment(), 'DD/MM/YYY')}
-                dateFormat="DD/MM/YYY"
-              />
+              <DatePicker onChange={onChange} value={dateView} />
+            </span>
+            <span className="title-field title-modal-text">
+              <Checkbox
+                onChange={(e) => handlePumpControl(e.target.checked)}
+                checked={device?.device?.pump_state === 'ON'}
+              >
+                Bật máy bơm
+              </Checkbox>
             </span>
           </Row>
         }
@@ -114,7 +135,6 @@ const ViewDeviceModal = (props) => {
                 <span className="lab-text" style={{ opacity: 0 }}>
                   hasPump
                 </span>
-                <Checkbox>hasPump</Checkbox>
               </Col>
             </Row>
           </>
