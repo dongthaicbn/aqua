@@ -24,7 +24,7 @@ const RemoveDeviceModal = (props) => {
       });
       if (!isEmpty(data.data)) {
         if (fetchData) fetchData();
-        message.success('Remove device thành công');
+        message.success('Xóa thiết bị thành công');
         closeModal();
       } else {
         message.error(data.message);
@@ -41,7 +41,7 @@ const RemoveDeviceModal = (props) => {
   return (
     <>
       <Modal
-        title="Remove device"
+        title="Xóa thiết bị"
         visible={true}
         onOk={closeModal}
         onCancel={closeModal}
@@ -57,7 +57,9 @@ const RemoveDeviceModal = (props) => {
           }}
           form={form}
         >
-          <p className="lab-text">Bạn có chắc chắn muốn xóa device dưới đây?</p>
+          <p className="lab-text">
+            Bạn có chắc chắn muốn xóa thiết bị dưới đây?
+          </p>
           <span className="lab-text">Username</span>
           <Form.Item name="username">
             <Input disabled />

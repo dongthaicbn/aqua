@@ -16,10 +16,9 @@ import { TOKEN } from 'utils/constants/constants';
 import { isEmpty } from 'utils/helpers/helpers';
 
 const EditDeviceModal = (props) => {
-  const { fetchData, item, device_id, deviceInfo, handleClose } = props;
+  const { fetchData, device_id, deviceInfo, handleClose } = props;
   const [form] = Form.useForm();
   const [loading, setLoading] = useState(false);
-  console.log('item:', item);
 
   const closeModal = () => {
     handleClose();
@@ -60,7 +59,7 @@ const EditDeviceModal = (props) => {
       });
       if (!isEmpty(data.data)) {
         if (fetchData) fetchData();
-        message.success('Chỉnh sửa cấu hình device thành công');
+        message.success('Chỉnh sửa cấu hình thiết bị thành công');
         closeModal();
       } else {
         message.error(data.message);
@@ -103,13 +102,13 @@ const EditDeviceModal = (props) => {
   return (
     <>
       <Modal
-        title="Chỉnh sửa cấu hình device"
+        title="Chỉnh sửa cấu hình thiết bị"
         visible={true}
         onOk={closeModal}
         onCancel={closeModal}
         footer={null}
         width={1200}
-        className="device-modal"
+        className="device-modal edit-device-modal"
       >
         <Form
           onFinish={onFinish}
@@ -123,7 +122,7 @@ const EditDeviceModal = (props) => {
         >
           <Row gutter={16}>
             <Col span={12}>
-              <span className="lab-text">Tên device</span>
+              <span className="lab-text">Tên thiết bị</span>
               <Form.Item name="device_name">
                 <Input />
               </Form.Item>

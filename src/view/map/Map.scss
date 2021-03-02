@@ -27,10 +27,12 @@
   justify-content: center;
   align-items: center;
 }
-.ant-modal-content .ant-modal-body {
-  overflow: auto;
-  max-height: 640px;
-  padding: 24px 24px 0px 24px;
+.edit-device-modal {
+  .ant-modal-content .ant-modal-body {
+    overflow: auto;
+    max-height: 640px;
+    padding: 24px 24px 0px 24px;
+  }
 }
 .device-footer-modal {
   margin: 0px -24px -20px -24px;
@@ -38,4 +40,28 @@
   bottom: 0px;
   background: white;
   border-top: 1px solid #f0f0f0;
+}
+.view-device {
+  .field-info {
+    margin-bottom: 8px;
+    padding: 0 !important;
+  }
+  .title-field {
+    font-size: 12px;
+    line-height: 14px;
+    color: #606266;
+    margin: 0;
+    &.title-modal-text {
+      margin-left: 20px;
+    }
+  }
+  .sub-field {
+    font-size: 14px;
+    line-height: 17px;
+    font-weight: 600;
+  }
+}
+.title-modal-custom {
+  display: flex;
+  align-items: center;
 }

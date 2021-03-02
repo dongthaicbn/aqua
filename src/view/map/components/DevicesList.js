@@ -1,12 +1,18 @@
 import React, { useState } from 'react';
 import { Collapse } from 'antd';
-import { PlusOutlined, DeleteOutlined, EditOutlined } from '@ant-design/icons';
+import {
+  PlusOutlined,
+  DeleteOutlined,
+  EditOutlined,
+  EyeOutlined,
+} from '@ant-design/icons';
 import { withRouter } from 'react-router-dom';
 import '../Map.scss';
 import { isEmpty } from 'utils/helpers/helpers';
 import AddDeviceModal from './AddDeviceModal';
 import RemoveDeviceModal from './RemoveDeviceModal';
 import EditDeviceModal from './EditDeviceModal';
+import ViewDeviceModal from './ViewDeviceModal';
 
 const { Panel } = Collapse;
 
@@ -42,6 +48,17 @@ const DevicesList = (props) => {
                   <p key={it} className="device-item ">
                     {it}
                     <span style={{ display: 'flex' }}>
+                      <EyeOutlined
+                        className="icon-center"
+                        title="Xem chi tiết"
+                        style={{ marginRight: 8 }}
+                        onClick={(event) => {
+                          itemSelected = el;
+                          device_id = it;
+                          setVisible('view');
+                          event.stopPropagation();
+                        }}
+                      />
                       <EditOutlined
                         className="icon-center"
                         title="Chỉnh sửa cấu hình"
@@ -87,13 +104,15 @@ const DevicesList = (props) => {
       {visible === 'edit' && (
         <EditDeviceModal
           fetchData={fetchUserList}
-          item={itemSelected}
           device_id={device_id}
           deviceInfo={userInfo.list_device_info.find(
             (v) => v.device_id === device_id
           )}
           handleClose={handleCloseModal}
         />
+      )}
+      {visible === 'view' && (
+        <ViewDeviceModal device_id={device_id} handleClose={handleCloseModal} />
       )}
     </div>
   );
