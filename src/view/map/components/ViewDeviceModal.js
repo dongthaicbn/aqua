@@ -9,12 +9,14 @@ import {
   Checkbox,
   DatePicker,
   Empty,
+  Table,
 } from 'antd';
 import { readDeviceByDay, pumpControl } from '../MapAction';
 import { TOKEN } from 'utils/constants/constants';
 import { isEmpty } from 'utils/helpers/helpers';
 
 const FORMAT_DATE = 'HH:mm:ss DD/MM/YYY';
+
 const ViewDeviceModal = (props) => {
   const { device_id, handleClose } = props;
   const [form] = Form.useForm();
@@ -29,8 +31,8 @@ const ViewDeviceModal = (props) => {
     try {
       const { data } = await readDeviceByDay({
         device_id,
-        // datetime: 1614435641,
-        datetime: moment(dateView).format('X'),
+        datetime: 1614435641,
+        // datetime: moment(dateView).format('X'),
         [TOKEN]: localStorage.getItem(TOKEN),
       });
       if (!isEmpty(data.data)) {
@@ -51,7 +53,9 @@ const ViewDeviceModal = (props) => {
       if (!isEmpty(data.code === 'OK')) {
         fetchDeviceDetail();
         message.success(
-          pumpValue ? 'Bật máy bơm thành công' : 'Tắt máy bơm thành công'
+          pumpValue
+            ? 'Lệnh bật máy bơm đã gửi thành công'
+            : 'Lệnh tắt máy bơm đã gửi thành công'
         );
       } else {
         message.error(data.message);
@@ -66,6 +70,24 @@ const ViewDeviceModal = (props) => {
     setDate(date);
   };
   console.log('device', device);
+  let columns = [
+    { title: 'Thời gian', dataIndex: 'dt', key: 'dt' },
+    { title: 'VIN [V]', dataIndex: 'vin', key: 'vin' },
+    { title: 'Trạng thái máy bơm', dataIndex: 'pumpState', key: 'pumpState' },
+  ];
+  if (!isEmpty(device?.device)) {
+    [1, 2, 3, 4, 5, 6, 7, 8].forEach((el) => {
+      const tempConfig = device?.device[`config${el}`];
+      columns.push({
+        title: `${tempConfig.input_name} [${tempConfig.input_unit}]`,
+        dataIndex: 'data',
+        key: 'config',
+        render: (text, row, index) => {
+          return row.data[el - 1];
+        },
+      });
+    });
+  }
   return (
     <>
       <Modal
@@ -86,14 +108,16 @@ const ViewDeviceModal = (props) => {
               <span style={{ marginRight: 12 }}>Chọn ngày hiển thị</span>
               <DatePicker onChange={onChange} value={dateView} />
             </span>
-            <span className="title-field title-modal-text">
-              <Checkbox
-                onChange={(e) => handlePumpControl(e.target.checked)}
-                checked={device?.device?.pump_state === 'ON'}
-              >
-                Bật máy bơm
-              </Checkbox>
-            </span>
+            {device?.device?.hasPump && (
+              <span className="title-field title-modal-text">
+                <Checkbox
+                  onChange={(e) => handlePumpControl(e.target.checked)}
+                  checked={device?.device?.pump_state === 'ON'}
+                >
+                  Bật máy bơm
+                </Checkbox>
+              </span>
+            )}
           </Row>
         }
         visible={true}
@@ -106,7 +130,7 @@ const ViewDeviceModal = (props) => {
         {!isEmpty(device) ? (
           <>
             <Row gutter={16}>
-              <Col span={8}>
+              <Col span={8} className="device-info">
                 <Col className="field-info">
                   <p className="title-field">Device Name</p>
                   <p className="sub-field">{device?.device?.device_name}</p>
@@ -131,10 +155,20 @@ const ViewDeviceModal = (props) => {
                   </p>
                 </Col>
               </Col>
-              <Col span={16}>
-                <span className="lab-text" style={{ opacity: 0 }}>
-                  hasPump
-                </span>
+              <Col span={16} className="table-container">
+                <Table
+                  dataSource={
+                    !isEmpty(device?.list_data_in_day)
+                      ? device?.list_data_in_day
+                      : []
+                  }
+                  columns={columns}
+                  pagination={false}
+                  bordered
+                  scroll={{ y: 240 }}
+                  size="small"
+                  rowKey={(record) => record?.dt}
+                />
               </Col>
             </Row>
           </>

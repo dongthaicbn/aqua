@@ -60,6 +60,15 @@
     line-height: 17px;
     font-weight: 600;
   }
+  .table-container {
+    max-height: 350px;
+    // overflow: auto;
+  }
+  .device-info {
+    border: solid 1px #e1edfa;
+    border-radius: 8px;
+    padding: 8px;
+  }
 }
 .title-modal-custom {
   display: flex;
