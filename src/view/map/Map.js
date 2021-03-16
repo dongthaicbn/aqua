@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { message } from 'antd';
 import { withRouter } from 'react-router-dom';
+import { CSVLink, CSVDownload } from 'react-csv';
 import MapGoogle from './components/MapGoogle';
 import DevicesList from './components/DevicesList';
 import './Map.scss';
