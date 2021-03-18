@@ -20,6 +20,15 @@
     justify-content: space-between;
     background: #e6f7ff;
     padding: 4px 10px;
+    cursor: pointer;
+    &:hover {
+      background: #2196f3;
+      color: white;
+    }
+    &.active-device {
+      background: #2196f3;
+      color: white;
+    }
   }
 }
 .icon-center {

@@ -14,6 +14,8 @@ import { isEmpty } from 'utils/helpers/helpers';
 const Map = (props) => {
   const { users } = props;
   const [userInfo, setUserInfo] = useState({});
+  const [deviceSelected, setDeviceSelected] = useState({});
+
   let isMounted = true;
   const fetchUserList = () => {
     if (isMounted) props.getUsers();
@@ -34,6 +36,15 @@ const Map = (props) => {
       }
     } catch (error) {}
   };
+  const handleSelectDevice = (deviceItem) => setDeviceSelected(deviceItem);
+
+  useEffect(() => {
+    if (isEmpty(deviceSelected)) {
+      setDeviceSelected(
+        userInfo.list_device_info ? userInfo.list_device_info[0] : {}
+      );
+    } // eslint-disable-next-line
+  }, [userInfo]);
   useEffect(() => {
     // eslint-disable-next-line
     isMounted = true;
@@ -55,10 +66,17 @@ const Map = (props) => {
       }}
       className="map-container"
     >
-      <MapGoogle deviceList={userInfo.list_device_info || []} />
+      <MapGoogle
+        deviceList={userInfo.list_device_info || []}
+        deviceSelected={deviceSelected}
+        handleSelectDevice={handleSelectDevice}
+      />
       <DevicesList
         userInfo={userInfo}
         userList={users}
+        deviceList={userInfo.list_device_info || []}
+        deviceSelected={deviceSelected}
+        handleSelectDevice={handleSelectDevice}
         fetchUserList={fetchUserList}
       />
     </div>

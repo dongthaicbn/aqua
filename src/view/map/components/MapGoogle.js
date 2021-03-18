@@ -23,12 +23,12 @@ const MapGoogle = compose(
   withScriptjs,
   withGoogleMap
 )((props) => {
-  const { deviceList } = props;
+  const { deviceList, deviceSelected, handleSelectDevice } = props;
   // const items = [{ latitude: 21.00626, longitude: 105.85537, id: 1 }];
+  // const coordinateActive = { latitude: 21.00626, longitude: 105.85537 };
 
-  const coordinateActive = { latitude: 21.00626, longitude: 105.85537 };
   const [zoom] = React.useState(12);
-  console.log('deviceList', deviceList);
+
   const disableOption = {
     mapTypeControl: false,
     fullscreenControl: false,
@@ -47,14 +47,14 @@ const MapGoogle = compose(
     <GoogleMap
       defaultZoom={zoom}
       center={{
-        lat: coordinateActive.latitude,
-        lng: coordinateActive.longitude,
+        lat: deviceSelected.latitude,
+        lng: deviceSelected.longitude,
       }}
       key={KEY_GOOGLE_MAP}
       defaultOptions={disableOption}
     >
       {(deviceList || []).map((el) => {
-        // const isActive = el.device_id === 1;
+        const isActive = el.device_id === deviceSelected.device_id;
         return (
           <OverlayView
             key={el.device_id}
@@ -64,17 +64,17 @@ const MapGoogle = compose(
           >
             <div
               style={{
-                backgroundColor: BLUE,
-                color: WHITE,
-                // backgroundColor: isActive ? BLUE : WHITE,
-                // color: isActive ? WHITE : BLUE,
+                // backgroundColor: BLUE,
+                // color: WHITE,
+                backgroundColor: isActive ? BLUE : WHITE,
+                color: isActive ? WHITE : BLUE,
                 fontSize: 14,
                 lineHeight: '17px',
                 padding: '3px 6px',
                 borderRadius: 8,
                 position: 'relative',
               }}
-              onClick={() => {}}
+              onClick={() => handleSelectDevice(el)}
               aria-hidden="true"
             >
               <div>{el.device_name}</div>
@@ -82,8 +82,8 @@ const MapGoogle = compose(
                 style={{
                   width: 9,
                   height: 9,
-                  backgroundColor: BLUE,
-                  // backgroundColor: isActive ? BLUE : WHITE,
+                  // backgroundColor: BLUE,
+                  backgroundColor: isActive ? BLUE : WHITE,
                   transform: 'rotate(45deg)',
                   position: 'absolute',
                   left: 'calc(50% - 5px)',

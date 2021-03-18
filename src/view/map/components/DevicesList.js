@@ -19,7 +19,14 @@ const { Panel } = Collapse;
 let itemSelected = null;
 let device_id = null;
 const DevicesList = (props) => {
-  const { userInfo, userList, fetchUserList } = props;
+  const {
+    userInfo,
+    userList,
+    deviceList,
+    deviceSelected,
+    fetchUserList,
+    handleSelectDevice,
+  } = props;
   const [visible, setVisible] = useState(null);
 
   const genExtra = (item) => (
@@ -44,45 +51,54 @@ const DevicesList = (props) => {
           userList.map((el) => (
             <Panel header={el.Value.username} key={el.Key} extra={genExtra(el)}>
               {!isEmpty(el.Value.listDevices) &&
-                el.Value.listDevices.map((it) => (
-                  <p key={it} className="device-item ">
-                    {it}
-                    <span style={{ display: 'flex' }}>
-                      <EyeOutlined
-                        className="icon-center"
-                        title="Xem chi tiết"
-                        style={{ marginRight: 8 }}
-                        onClick={(event) => {
-                          itemSelected = el;
-                          device_id = it;
-                          setVisible('view');
-                          event.stopPropagation();
-                        }}
-                      />
-                      <EditOutlined
-                        className="icon-center"
-                        title="Chỉnh sửa cấu hình"
-                        style={{ marginRight: 8 }}
-                        onClick={(event) => {
-                          itemSelected = el;
-                          device_id = it;
-                          setVisible('edit');
-                          event.stopPropagation();
-                        }}
-                      />
-                      <DeleteOutlined
-                        className="icon-center"
-                        title="Xóa device"
-                        onClick={(event) => {
-                          itemSelected = el;
-                          device_id = it;
-                          setVisible('remove');
-                          event.stopPropagation();
-                        }}
-                      />
-                    </span>
-                  </p>
-                ))}
+                el.Value.listDevices.map((it) => {
+                  const item = deviceList.find((v) => v.device_id === it);
+                  return (
+                    <p
+                      key={it}
+                      className={`device-item ${
+                        deviceSelected.device_id === it ? 'active-device' : ''
+                      }`}
+                      onClick={() => handleSelectDevice(item)}
+                    >
+                      {item ? item.device_name : ''} ({it})
+                      <span style={{ display: 'flex' }}>
+                        <EyeOutlined
+                          className="icon-center"
+                          title="Xem chi tiết"
+                          style={{ marginRight: 8 }}
+                          onClick={(event) => {
+                            itemSelected = el;
+                            device_id = it;
+                            setVisible('view');
+                            event.stopPropagation();
+                          }}
+                        />
+                        <EditOutlined
+                          className="icon-center"
+                          title="Chỉnh sửa cấu hình"
+                          style={{ marginRight: 8 }}
+                          onClick={(event) => {
+                            itemSelected = el;
+                            device_id = it;
+                            setVisible('edit');
+                            event.stopPropagation();
+                          }}
+                        />
+                        <DeleteOutlined
+                          className="icon-center"
+                          title="Xóa device"
+                          onClick={(event) => {
+                            itemSelected = el;
+                            device_id = it;
+                            setVisible('remove');
+                            event.stopPropagation();
+                          }}
+                        />
+                      </span>
+                    </p>
+                  );
+                })}
             </Panel>
           ))}
       </Collapse>
