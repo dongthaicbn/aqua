@@ -23,10 +23,12 @@ const MapGoogle = compose(
   withScriptjs,
   withGoogleMap
 )((props) => {
-  const items = [{ latitude: 21.00626, longitude: 105.85537, id: 1 }];
+  const { deviceList } = props;
+  // const items = [{ latitude: 21.00626, longitude: 105.85537, id: 1 }];
+
   const coordinateActive = { latitude: 21.00626, longitude: 105.85537 };
   const [zoom] = React.useState(12);
-
+  console.log('deviceList', deviceList);
   const disableOption = {
     mapTypeControl: false,
     fullscreenControl: false,
@@ -51,34 +53,37 @@ const MapGoogle = compose(
       key={KEY_GOOGLE_MAP}
       defaultOptions={disableOption}
     >
-      {(items || []).map((el) => {
-        const isActive = el.id === 1;
+      {(deviceList || []).map((el) => {
+        // const isActive = el.device_id === 1;
         return (
           <OverlayView
-            key={el.id}
+            key={el.device_id}
             position={{ lat: el.latitude, lng: el.longitude }}
             mapPaneName={OverlayView.OVERLAY_MOUSE_TARGET}
             getPixelPositionOffset={getPixelPositionOffset}
           >
             <div
               style={{
-                backgroundColor: isActive ? BLUE : WHITE,
+                backgroundColor: BLUE,
+                color: WHITE,
+                // backgroundColor: isActive ? BLUE : WHITE,
+                // color: isActive ? WHITE : BLUE,
                 fontSize: 14,
                 lineHeight: '17px',
                 padding: '3px 6px',
                 borderRadius: 8,
                 position: 'relative',
-                color: isActive ? WHITE : BLUE,
               }}
               onClick={() => {}}
               aria-hidden="true"
             >
-              <div>abc</div>
+              <div>{el.device_name}</div>
               <div
                 style={{
                   width: 9,
                   height: 9,
-                  backgroundColor: isActive ? BLUE : WHITE,
+                  backgroundColor: BLUE,
+                  // backgroundColor: isActive ? BLUE : WHITE,
                   transform: 'rotate(45deg)',
                   position: 'absolute',
                   left: 'calc(50% - 5px)',

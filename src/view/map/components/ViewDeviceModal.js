@@ -42,7 +42,6 @@ const ViewDeviceModal = (props) => {
         [TOKEN]: localStorage.getItem(TOKEN),
       });
       if (!isEmpty(data.data)) {
-        console.log('test', data.data);
         setDevice(data.data);
       } else {
         message.error(data.message);
@@ -75,7 +74,7 @@ const ViewDeviceModal = (props) => {
   const onChange = (date, dateString) => {
     setDate(date);
   };
-  console.log('device', device);
+  // console.log('device', device);
   let columns = [
     { title: 'Thời gian', dataIndex: 'dt', key: 'dt' },
     { title: 'VIN [V]', dataIndex: 'vin', key: 'vin' },
@@ -94,7 +93,6 @@ const ViewDeviceModal = (props) => {
       });
     });
   }
-  console.log('columns', columns);
   return (
     <>
       <Modal
@@ -139,8 +137,9 @@ const ViewDeviceModal = (props) => {
                 }
                 name="data"
               >
-                {columns.map((el) => (
+                {columns.map((el, i) => (
                   <ExcelColumn
+                    key={i}
                     label={el.title}
                     value={(col) => {
                       if (el.key.includes('config')) {

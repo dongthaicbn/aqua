@@ -55,7 +55,7 @@ const Map = (props) => {
       }}
       className="map-container"
     >
-      <MapGoogle />
+      <MapGoogle deviceList={userInfo.list_device_info || []} />
       <DevicesList
         userInfo={userInfo}
         userList={users}
