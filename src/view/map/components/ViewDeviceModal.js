@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import moment from 'moment';
+import ReactExport from 'react-data-export';
 import {
   Modal,
   Form,
@@ -10,12 +11,17 @@ import {
   DatePicker,
   Empty,
   Table,
+  Button,
 } from 'antd';
 import { readDeviceByDay, pumpControl } from '../MapAction';
 import { TOKEN } from 'utils/constants/constants';
 import { isEmpty } from 'utils/helpers/helpers';
 
-const FORMAT_DATE = 'HH:mm:ss DD/MM/YYY';
+const FORMAT_DATE = 'HH:mm:ss DD/MM/YYYY';
+const FORMAT_SHORT_DATE = 'DD/MM/YYYY';
+const ExcelFile = ReactExport.ExcelFile;
+const ExcelSheet = ReactExport.ExcelFile.ExcelSheet;
+const ExcelColumn = ReactExport.ExcelFile.ExcelColumn;
 
 const ViewDeviceModal = (props) => {
   const { device_id, handleClose } = props;
@@ -31,8 +37,8 @@ const ViewDeviceModal = (props) => {
     try {
       const { data } = await readDeviceByDay({
         device_id,
-        datetime: 1614435641,
-        // datetime: moment(dateView).format('X'),
+        // datetime: 1614435641,
+        datetime: moment(dateView).format('X'),
         [TOKEN]: localStorage.getItem(TOKEN),
       });
       if (!isEmpty(data.data)) {
@@ -81,13 +87,14 @@ const ViewDeviceModal = (props) => {
       columns.push({
         title: `${tempConfig.input_name} [${tempConfig.input_unit}]`,
         dataIndex: 'data',
-        key: 'config',
+        key: `config${el}`,
         render: (text, row, index) => {
           return row.data[el - 1];
         },
       });
     });
   }
+  console.log('columns', columns);
   return (
     <>
       <Modal
@@ -118,6 +125,34 @@ const ViewDeviceModal = (props) => {
                 </Checkbox>
               </span>
             )}
+            <ExcelFile
+              element={<Button type="primary">Xuất Excel</Button>}
+              filename={`${device?.device?.device_name} ${moment(
+                dateView
+              ).format(FORMAT_SHORT_DATE)}`}
+            >
+              <ExcelSheet
+                data={
+                  !isEmpty(device?.list_data_in_day)
+                    ? device?.list_data_in_day
+                    : []
+                }
+                name="data"
+              >
+                {columns.map((el) => (
+                  <ExcelColumn
+                    label={el.title}
+                    value={(col) => {
+                      if (el.key.includes('config')) {
+                        const idx = el.key.replace('config', '');
+                        return col.data[idx - 1];
+                      }
+                      return el.key;
+                    }}
+                  />
+                ))}
+              </ExcelSheet>
+            </ExcelFile>
           </Row>
         }
         visible={true}
