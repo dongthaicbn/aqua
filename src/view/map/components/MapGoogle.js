@@ -1,4 +1,5 @@
 import React from 'react';
+import { Radio } from 'antd';
 import {
   GoogleMap,
   withGoogleMap,
@@ -10,7 +11,7 @@ import { compose, withProps } from 'recompose';
 // export const KEY_GOOGLE_MAP = 'AIzaSyA9SPYP838bh5o7pBC8xA7632sDJ0jJwxM';
 export const KEY_GOOGLE_MAP = 'AIzaSyDemuTXbh1ONO1hYzbfP-TGCkPRI2jwaPA';
 
-const BLUE = '#00B6F3';
+// const BLUE = '#00B6F3';
 const WHITE = '#FFFFFF';
 
 const MapGoogle = compose(
@@ -54,7 +55,9 @@ const MapGoogle = compose(
       defaultOptions={disableOption}
     >
       {(deviceList || []).map((el) => {
-        const isActive = el.device_id === deviceSelected.device_id;
+        // console.log('el', el);
+        // const isActive = el.device_id === deviceSelected.device_id;
+        const isOnline = el.status;
         return (
           <OverlayView
             key={el.device_id}
@@ -64,10 +67,10 @@ const MapGoogle = compose(
           >
             <div
               style={{
-                // backgroundColor: BLUE,
-                // color: WHITE,
-                backgroundColor: isActive ? BLUE : WHITE,
-                color: isActive ? WHITE : BLUE,
+                backgroundColor: WHITE,
+                color: '#212121',
+                // backgroundColor: isActive ? BLUE : WHITE,
+                // color: isActive ? WHITE : BLUE,
                 fontSize: 14,
                 lineHeight: '17px',
                 padding: '3px 6px',
@@ -77,13 +80,19 @@ const MapGoogle = compose(
               onClick={() => handleSelectDevice(el)}
               aria-hidden="true"
             >
-              <div>{el.device_name}</div>
+              <div>
+                <Radio
+                  checked
+                  className={isOnline ? 'online-device' : 'offline-device'}
+                />
+                {el.device_name}
+              </div>
               <div
                 style={{
                   width: 9,
                   height: 9,
-                  // backgroundColor: BLUE,
-                  backgroundColor: isActive ? BLUE : WHITE,
+                  backgroundColor: WHITE,
+                  // backgroundColor: isActive ? BLUE : WHITE,
                   transform: 'rotate(45deg)',
                   position: 'absolute',
                   left: 'calc(50% - 5px)',

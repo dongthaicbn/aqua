@@ -83,3 +83,21 @@
   display: flex;
   align-items: center;
 }
+.online-device {
+  .ant-radio-checked .ant-radio-inner {
+    border-color: #01bf01 !important ;
+  }
+
+  .ant-radio-checked .ant-radio-inner:after {
+    background-color: #01bf01;
+  }
+}
+.offline-device {
+  .ant-radio-checked .ant-radio-inner {
+    border-color: #9e9e9e !important ;
+  }
+
+  .ant-radio-checked .ant-radio-inner:after {
+    background-color: #9e9e9e;
+  }
+}

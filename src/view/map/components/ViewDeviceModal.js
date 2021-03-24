@@ -146,7 +146,7 @@ const ViewDeviceModal = (props) => {
                         const idx = el.key.replace('config', '');
                         return col.data[idx - 1];
                       }
-                      return el.key;
+                      return col[el.key];
                     }}
                   />
                 ))}
