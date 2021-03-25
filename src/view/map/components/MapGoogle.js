@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { Radio } from 'antd';
+import moment from 'moment';
 import {
   GoogleMap,
   withGoogleMap,
   withScriptjs,
   OverlayView,
 } from 'react-google-maps';
+import { HistoryOutlined } from '@ant-design/icons';
 import { compose, withProps } from 'recompose';
 import { isEmpty } from 'utils/helpers/helpers';
 
@@ -65,7 +67,15 @@ const MapGoogle = compose(
       {isLoaded &&
         !isEmpty(deviceList) &&
         (deviceList || []).map((el) => {
-          // console.log('el', el);
+          const dataInfo = [];
+          [1, 2, 3, 4, 5, 6, 7, 8].forEach((idx) => {
+            if (!el[`config${idx}`].is_display_data) {
+              dataInfo.push({
+                ...el[`config${idx}`],
+                value: el.lastData[idx - 1],
+              });
+            }
+          });
           // const isActive = el.device_id === deviceSelected.device_id;
           const isOnline = el.status;
           if (isEmpty(el)) return null;
@@ -96,7 +106,42 @@ const MapGoogle = compose(
                     checked
                     className={isOnline ? 'online-device' : 'offline-device'}
                   />
-                  {el.device_name}
+                  <span style={{ fontWeight: 600 }}>{el.device_name}</span>
+                  <ul style={{ padding: '4px 20px' }}>
+                    <span
+                      style={{
+                        marginLeft: -20,
+                        display: 'flex',
+                        alignItems: 'center',
+                      }}
+                    >
+                      <HistoryOutlined />
+                      &nbsp;
+                      {moment.utc(el.lastReceived).format('DD/MM/YYYY HH:mm')}
+                    </span>
+                    <li>
+                      <span style={{ fontWeight: 600 }}>Vin</span>
+                      :&nbsp;{el.vin}
+                    </li>
+                    {!isEmpty(dataInfo) &&
+                      dataInfo.map((infoItem, i) => (
+                        <li
+                          key={i}
+                          style={{
+                            color: infoItem.high_warning
+                              ? '#f44336'
+                              : infoItem.low_warning
+                              ? '#ffeb3b'
+                              : '#212121',
+                          }}
+                        >
+                          <span style={{ fontWeight: 600 }}>
+                            {infoItem.input_name}
+                          </span>
+                          :&nbsp;{infoItem.value} ({infoItem.input_unit})
+                        </li>
+                      ))}
+                  </ul>
                 </div>
                 <div
                   style={{
