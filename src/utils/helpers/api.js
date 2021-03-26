@@ -12,7 +12,13 @@ request.interceptors.request.use(
     if (config.url.indexOf('/api/authenticate') !== -1) {
       delete config.headers.Authorization;
     }
-    return config;
+    return {
+      ...config,
+      headers: {
+        ...config?.headers,
+        Authorization: 'Bearer ' + localStorage.getItem(TOKEN),
+      },
+    };
   },
   (error) => Promise.reject(error)
 );
