@@ -6,6 +6,7 @@ import {
   withGoogleMap,
   withScriptjs,
   OverlayView,
+  Marker,
 } from 'react-google-maps';
 import { HistoryOutlined } from '@ant-design/icons';
 import { compose, withProps } from 'recompose';
@@ -80,83 +81,86 @@ const MapGoogle = compose(
           const isOnline = el.status;
           if (isEmpty(el)) return null;
           return (
-            <OverlayView
-              key={el.device_id}
-              position={{ lat: el.latitude, lng: el.longitude }}
-              mapPaneName={OverlayView.OVERLAY_MOUSE_TARGET}
-              getPixelPositionOffset={getPixelPositionOffset}
-            >
-              <div
-                style={{
-                  backgroundColor: WHITE,
-                  color: '#212121',
-                  // backgroundColor: isActive ? BLUE : WHITE,
-                  // color: isActive ? WHITE : BLUE,
-                  fontSize: 14,
-                  lineHeight: '17px',
-                  padding: '3px 6px',
-                  borderRadius: 8,
-                  position: 'relative',
-                }}
-                onClick={() => handleSelectDevice(el)}
-                aria-hidden="true"
+            <>
+              <OverlayView
+                key={el.device_id}
+                position={{ lat: el.latitude, lng: el.longitude }}
+                mapPaneName={OverlayView.OVERLAY_MOUSE_TARGET}
+                getPixelPositionOffset={getPixelPositionOffset}
               >
-                <div>
-                  <Radio
-                    checked
-                    className={isOnline ? 'online-device' : 'offline-device'}
-                  />
-                  <span style={{ fontWeight: 600 }}>{el.device_name}</span>
-                  <ul style={{ padding: '4px 20px' }}>
-                    <span
-                      style={{
-                        marginLeft: -20,
-                        display: 'flex',
-                        alignItems: 'center',
-                      }}
-                    >
-                      <HistoryOutlined />
-                      &nbsp;
-                      {moment.utc(el.lastReceived).format('DD/MM/YYYY HH:mm')}
-                    </span>
-                    <li>
-                      <span style={{ fontWeight: 600 }}>Vin</span>
-                      :&nbsp;{el.vin}
-                    </li>
-                    {!isEmpty(dataInfo) &&
-                      dataInfo.map((infoItem, i) => (
-                        <li
-                          key={i}
-                          style={{
-                            color: infoItem.high_warning
-                              ? '#f44336'
-                              : infoItem.low_warning
-                              ? '#ffeb3b'
-                              : '#212121',
-                          }}
-                        >
-                          <span style={{ fontWeight: 600 }}>
-                            {infoItem.input_name}
-                          </span>
-                          :&nbsp;{infoItem.value} ({infoItem.input_unit})
-                        </li>
-                      ))}
-                  </ul>
-                </div>
                 <div
                   style={{
-                    width: 9,
-                    height: 9,
                     backgroundColor: WHITE,
+                    color: '#212121',
                     // backgroundColor: isActive ? BLUE : WHITE,
-                    transform: 'rotate(45deg)',
-                    position: 'absolute',
-                    left: 'calc(50% - 5px)',
-                    marginTop: -1,
+                    // color: isActive ? WHITE : BLUE,
+                    fontSize: 14,
+                    lineHeight: '17px',
+                    padding: '3px 6px',
+                    borderRadius: 8,
+                    position: 'relative',
                   }}
-                />
-              </div>
-            </OverlayView>
+                  onClick={() => handleSelectDevice(el)}
+                  aria-hidden="true"
+                >
+                  <div>
+                    <Radio
+                      checked
+                      className={isOnline ? 'online-device' : 'offline-device'}
+                    />
+                    <span style={{ fontWeight: 600 }}>{el.device_name}</span>
+                    <ul style={{ padding: '4px 20px' }}>
+                      <span
+                        style={{
+                          marginLeft: -20,
+                          display: 'flex',
+                          alignItems: 'center',
+                        }}
+                      >
+                        <HistoryOutlined />
+                        &nbsp;
+                        {moment.utc(el.lastReceived).format('DD/MM/YYYY HH:mm')}
+                      </span>
+                      <li>
+                        <span style={{ fontWeight: 600 }}>Vin</span>
+                        :&nbsp;{el.vin}
+                      </li>
+                      {!isEmpty(dataInfo) &&
+                        dataInfo.map((infoItem, i) => (
+                          <li
+                            key={i}
+                            style={{
+                              color: infoItem.high_warning
+                                ? '#f44336'
+                                : infoItem.low_warning
+                                ? '#ffeb3b'
+                                : '#212121',
+                            }}
+                          >
+                            <span style={{ fontWeight: 600 }}>
+                              {infoItem.input_name}
+                            </span>
+                            :&nbsp;{infoItem.value} ({infoItem.input_unit})
+                          </li>
+                        ))}
+                    </ul>
+                  </div>
+                  <div
+                    style={{
+                      width: 9,
+                      height: 9,
+                      backgroundColor: WHITE,
+                      // backgroundColor: isActive ? BLUE : WHITE,
+                      transform: 'rotate(45deg)',
+                      position: 'absolute',
+                      left: 'calc(50% - 5px)',
+                      marginTop: -1,
+                    }}
+                  />
+                </div>
+              </OverlayView>
+              <Marker position={{ lat: el.latitude, lng: el.longitude }} />
+            </>
           );
         })}
     </GoogleMap>
