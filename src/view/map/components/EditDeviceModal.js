@@ -135,10 +135,10 @@ const EditDeviceModal = (props) => {
             </Col>
             <Col span={6}>
               <span className="lab-text" style={{ opacity: 0 }}>
-                hasPump
+                Bơm
               </span>
               <Form.Item name="hasPump" valuePropName="checked">
-                <Checkbox>hasPump</Checkbox>
+                <Checkbox>Bơm</Checkbox>
               </Form.Item>
             </Col>
           </Row>
@@ -182,24 +182,24 @@ const EditDeviceModal = (props) => {
                   <Row gutter={16}>
                     <Col span={12}>
                       <span className="lab-text" style={{ opacity: 0 }}>
-                        is_display_data
+                        Show trên marker
                       </span>
                       <Form.Item
                         name={`is_display_data_${el}`}
                         valuePropName="checked"
                       >
-                        <Checkbox>is_display_data</Checkbox>
+                        <Checkbox>Show trên marker</Checkbox>
                       </Form.Item>
                     </Col>
                     <Col span={12}>
                       <span className="lab-text" style={{ opacity: 0 }}>
-                        is_display_graph
+                        Show trên biểu đồ
                       </span>
                       <Form.Item
                         name={`is_display_graph_${el}`}
                         valuePropName="checked"
                       >
-                        <Checkbox>is_display_graph</Checkbox>
+                        <Checkbox>Show trên biểu đồ</Checkbox>
                       </Form.Item>
                     </Col>
                   </Row>
@@ -209,13 +209,13 @@ const EditDeviceModal = (props) => {
                 <Col span={8}>
                   <Row gutter={16}>
                     <Col span={12}>
-                      <span className="lab-text">high_level</span>
+                      <span className="lab-text">Ngưỡng mức cao</span>
                       <Form.Item name={`high_level_${el}`}>
                         <Input />
                       </Form.Item>
                     </Col>
                     <Col span={12}>
-                      <span className="lab-text">low_level</span>
+                      <span className="lab-text">Ngưỡng mức thấp</span>
                       <Form.Item name={`low_level_${el}`}>
                         <Input />
                       </Form.Item>

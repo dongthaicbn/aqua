@@ -123,7 +123,7 @@ const MapGoogle = compose(
                       </span>
                       <li>
                         <span style={{ fontWeight: 600 }}>Vin</span>
-                        :&nbsp;{el.vin}
+                        :&nbsp;{el.vin} (V)
                       </li>
                       {!isEmpty(dataInfo) &&
                         dataInfo.map((infoItem, i) => (
@@ -133,7 +133,7 @@ const MapGoogle = compose(
                               color: infoItem.high_warning
                                 ? '#f44336'
                                 : infoItem.low_warning
-                                ? '#ffeb3b'
+                                ? '#fdd835'
                                 : '#212121',
                             }}
                           >
