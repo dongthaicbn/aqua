@@ -66,11 +66,19 @@ const Map = (props) => {
       }}
       className="map-container"
     >
+      {!isEmpty(userInfo.user) && (
+        <div className="device-info-block">
+          <span>Thiết bị: {userInfo.user.totalDevice}</span>
+          <span>Mất kết nối: {userInfo.user.totalOffline}</span>
+          <span>Đang kết nối: {userInfo.user.totalOnline}</span>
+        </div>
+      )}
       <MapGoogle
         deviceList={userInfo.list_device_info || []}
         deviceSelected={deviceSelected}
         handleSelectDevice={handleSelectDevice}
       />
+
       <DevicesList
         userInfo={userInfo}
         userList={users}

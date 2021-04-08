@@ -74,10 +74,17 @@ const ViewDeviceModal = (props) => {
   const onChange = (date, dateString) => {
     setDate(date);
   };
-  // console.log('device', device);
   let columns = [
-    { title: 'Thời gian', dataIndex: 'dt', key: 'dt' },
-    { title: 'VIN [V]', dataIndex: 'vin', key: 'vin' },
+    {
+      title: 'Thời gian',
+      dataIndex: 'dt',
+      key: 'dt',
+      width: 150,
+      render: (text, row, index) => {
+        return <span>{moment.utc(row.dt).format('DD/MM/YYYY HH:mm:ss')}</span>;
+      },
+    },
+    { title: 'VIN [V]', width: 60, dataIndex: 'vin', key: 'vin' },
     { title: 'Trạng thái máy bơm', dataIndex: 'pumpState', key: 'pumpState' },
   ];
   if (!isEmpty(device?.device)) {
@@ -164,7 +171,7 @@ const ViewDeviceModal = (props) => {
         {!isEmpty(device) ? (
           <>
             <Row gutter={16}>
-              <Col span={8} className="device-info">
+              <Col span={4} className="device-info">
                 <Col className="field-info">
                   <p className="title-field">Device Name</p>
                   <p className="sub-field">{device?.device?.device_name}</p>
@@ -189,7 +196,7 @@ const ViewDeviceModal = (props) => {
                   </p>
                 </Col>
               </Col>
-              <Col span={16} className="table-container">
+              <Col span={20} className="table-container">
                 <Table
                   dataSource={
                     !isEmpty(device?.list_data_in_day)
