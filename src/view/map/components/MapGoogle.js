@@ -51,8 +51,8 @@ const MapGoogle = compose(
   const disableOption = {
     mapTypeControl: false,
     fullscreenControl: false,
-    clickableIcons: true,
-    streetViewControl: true,
+    clickableIcons: false,
+    streetViewControl: false,
     zoomControl: true,
     keyboardShortcuts: true,
     draggableCursor: "pointer",
