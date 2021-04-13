@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
-import { Form, Modal, Input, message, Button } from 'antd';
-import { FormattedMessage } from 'react-intl';
-import { changePassword } from 'view/system/systemAction';
-import { ACCOUNT, TOKEN } from 'utils/constants/constants';
-import { isEmpty } from 'utils/helpers/helpers';
+import React, { useState } from "react";
+import { Form, Modal, Input, message, Button } from "antd";
+import { FormattedMessage } from "react-intl";
+import { changePassword } from "view/system/systemAction";
+import { ACCOUNT, TOKEN } from "utils/constants/constants";
+import { isEmpty } from "utils/helpers/helpers";
 
 const ChangePasswordModal = (props) => {
   const [loading, setLoading] = useState(false);
@@ -16,7 +16,7 @@ const ChangePasswordModal = (props) => {
         [TOKEN]: localStorage.getItem(TOKEN),
       });
       if (!isEmpty(data.data)) {
-        message.success('Thay đổi mật khẩu thành công');
+        message.success("Thay đổi mật khẩu thành công");
         localStorage.setItem(TOKEN, data.data.tokenkey);
         localStorage.setItem(ACCOUNT, JSON.stringify(data.data));
         props.closeModal();
@@ -29,9 +29,7 @@ const ChangePasswordModal = (props) => {
     }
   };
 
-  const onFinishFailed = (errorInfo) => {
-    console.log('Failed:', errorInfo);
-  };
+  const onFinishFailed = (errorInfo) => {};
 
   return (
     <Modal
@@ -54,7 +52,7 @@ const ChangePasswordModal = (props) => {
             {
               required: true,
               whitespace: true,
-              message: 'Hãy nhập mật khẩu cũ!',
+              message: "Hãy nhập mật khẩu cũ!",
             },
           ]}
         >
@@ -68,14 +66,14 @@ const ChangePasswordModal = (props) => {
             {
               required: true,
               whitespace: true,
-              message: 'Hãy nhập mật khẩu mới!',
+              message: "Hãy nhập mật khẩu mới!",
             },
           ]}
         >
           <Input.Password placeholder="Nhập mật khẩu mới" />
         </Form.Item>
         <Form.Item style={{ marginBottom: 0 }}>
-          <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+          <div style={{ display: "flex", justifyContent: "flex-end" }}>
             <Button onClick={props.closeModal}>Hủy</Button>
             <Button
               type="primary"

@@ -1,4 +1,4 @@
-import React, { useState, Fragment } from 'react';
+import React, { useState, Fragment } from "react";
 import {
   Modal,
   Form,
@@ -9,11 +9,11 @@ import {
   Col,
   Divider,
   Checkbox,
-} from 'antd';
-import { FormattedMessage } from 'react-intl';
-import { configDevice } from '../MapAction';
-import { TOKEN } from 'utils/constants/constants';
-import { isEmpty } from 'utils/helpers/helpers';
+} from "antd";
+import { FormattedMessage } from "react-intl";
+import { configDevice } from "../MapAction";
+import { TOKEN } from "utils/constants/constants";
+import { isEmpty } from "utils/helpers/helpers";
 
 const EditDeviceModal = (props) => {
   const { fetchData, device_id, deviceInfo, handleClose } = props;
@@ -59,7 +59,7 @@ const EditDeviceModal = (props) => {
       });
       if (!isEmpty(data.data)) {
         if (fetchData) fetchData();
-        message.success('Chỉnh sửa cấu hình thiết bị thành công');
+        message.success("Chỉnh sửa cấu hình thiết bị thành công");
         closeModal();
       } else {
         message.error(data.message);
@@ -70,9 +70,7 @@ const EditDeviceModal = (props) => {
     }
   };
 
-  const onFinishFailed = (errorInfo) => {
-    console.log('Failed:', errorInfo);
-  };
+  const onFinishFailed = (errorInfo) => {};
   const getInitialValue = (info) => {
     let result = {
       device_name: info.device_name,
@@ -260,9 +258,9 @@ const EditDeviceModal = (props) => {
           <Form.Item className="device-footer-modal">
             <div
               style={{
-                display: 'flex',
-                justifyContent: 'flex-end',
-                padding: '12px 24px 24px',
+                display: "flex",
+                justifyContent: "flex-end",
+                padding: "12px 24px 24px",
               }}
             >
               <Button onClick={closeModal}>Hủy</Button>

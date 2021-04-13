@@ -1,17 +1,17 @@
-import React, { useState } from 'react';
-import { withRouter } from 'react-router-dom';
-import { Form, Input, Button, Divider } from 'antd';
-import { connect } from 'react-redux';
-import * as icons from '../../assets';
-import { FormattedMessage } from 'react-intl';
-import { requestLogin } from './LoginService';
+import React, { useState } from "react";
+import { withRouter } from "react-router-dom";
+import { Form, Input, Button, Divider } from "antd";
+import { connect } from "react-redux";
+import * as icons from "../../assets";
+import { FormattedMessage } from "react-intl";
+import { requestLogin } from "./LoginService";
 import {
   getAccountInfo,
   updateAccountInfo,
-} from '../../view/system/systemAction';
-import './Login.scss';
-import { ACCOUNT, routes, TOKEN } from '../../utils/constants/constants';
-import { isEmpty } from 'utils/helpers/helpers';
+} from "../../view/system/systemAction";
+import "./Login.scss";
+import { ACCOUNT, routes, TOKEN } from "../../utils/constants/constants";
+import { isEmpty } from "utils/helpers/helpers";
 // import api from '../../utils/helpers/api';
 
 const Login = (props) => {
@@ -25,11 +25,11 @@ const Login = (props) => {
       if (!isEmpty(data.data)) {
         localStorage.setItem(TOKEN, data.data.tokenkey);
         localStorage.setItem(ACCOUNT, JSON.stringify(data.data));
-        props.history.push(routes.MAP.replace(':type', 'admin'));
+        props.history.push(routes.MAP.replace(":type", "admin"));
         // props.getAccountInfo();
         props.updateAccountInfo(data.data);
       } else {
-        setErr('Username hoặc password không chính xác!');
+        setErr("Username hoặc password không chính xác!");
       }
     } catch (err) {
     } finally {
@@ -37,9 +37,7 @@ const Login = (props) => {
     }
   };
 
-  const onFinishFailed = (errorInfo) => {
-    console.log('Failed:', errorInfo);
-  };
+  const onFinishFailed = (errorInfo) => {};
   return (
     <div className="login-wrapper">
       <div className="login-left">
@@ -47,7 +45,7 @@ const Login = (props) => {
           <img src={icons.logo} alt="logo" />
           <div className="login-text">
             <p className="login-header">Water Network Management System</p>
-            <Divider style={{ background: 'white' }} />
+            <Divider style={{ background: "white" }} />
             <p className="sub-header">
               Chào mừng bạn đến với hệ thống IoT Thủy Sản
             </p>
@@ -69,10 +67,10 @@ const Login = (props) => {
               {
                 required: true,
                 whitespace: true,
-                message: 'Hãy nhập username!',
+                message: "Hãy nhập username!",
               },
-              { max: 50, message: 'Bạn không thể nhập quá 50 kí tự!' },
-              { pattern: "^[_'.@A-Za-z0-9-]*$", message: 'Hãy nhập username' },
+              { max: 50, message: "Bạn không thể nhập quá 50 kí tự!" },
+              { pattern: "^[_'.@A-Za-z0-9-]*$", message: "Hãy nhập username" },
             ]}
           >
             <Input placeholder="Nhập tài khoản" />
@@ -84,7 +82,7 @@ const Login = (props) => {
               {
                 required: true,
                 whitespace: true,
-                message: 'Hãy nhập password!',
+                message: "Hãy nhập password!",
               },
             ]}
           >

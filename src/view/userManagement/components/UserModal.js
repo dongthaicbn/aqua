@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
-import { Modal, Form, Input, Button, Select, message } from 'antd';
-import { FormattedMessage } from 'react-intl';
-import { addUser } from '../UserManagementAction';
-import { TOKEN } from 'utils/constants/constants';
-import { isEmpty } from 'utils/helpers/helpers';
+import React, { useState } from "react";
+import { Modal, Form, Input, Button, Select, message } from "antd";
+import { FormattedMessage } from "react-intl";
+import { addUser } from "../UserManagementAction";
+import { TOKEN } from "utils/constants/constants";
+import { isEmpty } from "utils/helpers/helpers";
 
 const UserModal = (props) => {
   const { fetchData } = props;
@@ -22,7 +22,7 @@ const UserModal = (props) => {
       });
       if (!isEmpty(data.data)) {
         if (fetchData) fetchData();
-        message.success('Thêm người dùng thành công');
+        message.success("Thêm người dùng thành công");
         closeModal();
       } else {
         message.error(data.message);
@@ -33,9 +33,7 @@ const UserModal = (props) => {
     }
   };
 
-  const onFinishFailed = (errorInfo) => {
-    console.log('Failed:', errorInfo);
-  };
+  const onFinishFailed = (errorInfo) => {};
   return (
     <>
       <Button type="primary" onClick={openModal}>
@@ -60,10 +58,10 @@ const UserModal = (props) => {
               {
                 required: true,
                 whitespace: true,
-                message: 'Hãy nhập username!',
+                message: "Hãy nhập username!",
               },
-              { max: 50, message: 'Bạn không thể nhập quá 50 kí tự!' },
-              { pattern: "^[_'.@A-Za-z0-9-]*$", message: 'Hãy nhập username' },
+              { max: 50, message: "Bạn không thể nhập quá 50 kí tự!" },
+              { pattern: "^[_'.@A-Za-z0-9-]*$", message: "Hãy nhập username" },
             ]}
           >
             <Input placeholder="Nhập tài khoản" />
@@ -76,7 +74,7 @@ const UserModal = (props) => {
               {
                 required: true,
                 whitespace: true,
-                message: 'Hãy nhập password!',
+                message: "Hãy nhập password!",
               },
             ]}
           >
@@ -90,7 +88,7 @@ const UserModal = (props) => {
             </Select>
           </Form.Item>
           <Form.Item style={{ marginBottom: 0 }}>
-            <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+            <div style={{ display: "flex", justifyContent: "flex-end" }}>
               <Button onClick={closeModal}>Hủy</Button>
               <Button
                 type="primary"

@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
-import { Modal, Form, Input, Button, message } from 'antd';
-import { FormattedMessage } from 'react-intl';
-import { TOKEN } from 'utils/constants/constants';
-import { isEmpty } from 'utils/helpers/helpers';
-import { addDeviceID } from '../UserManagementAction';
+import React, { useState } from "react";
+import { Modal, Form, Input, Button, message } from "antd";
+import { FormattedMessage } from "react-intl";
+import { TOKEN } from "utils/constants/constants";
+import { isEmpty } from "utils/helpers/helpers";
+import { addDeviceID } from "../UserManagementAction";
 
 const AddDeviceModal = (props) => {
   const { fetchData, item } = props;
@@ -26,7 +26,7 @@ const AddDeviceModal = (props) => {
       });
       if (!isEmpty(data.data)) {
         if (fetchData) fetchData();
-        message.success('Thêm device thành công');
+        message.success("Thêm device thành công");
         closeModal();
       } else {
         message.error(data.message);
@@ -37,9 +37,7 @@ const AddDeviceModal = (props) => {
     }
   };
 
-  const onFinishFailed = (errorInfo) => {
-    console.log('Failed:', errorInfo);
-  };
+  const onFinishFailed = (errorInfo) => {};
   return (
     <>
       <Button type="primary" onClick={openModal}>
@@ -70,7 +68,7 @@ const AddDeviceModal = (props) => {
               {
                 required: true,
                 whitespace: true,
-                message: 'Hãy nhập Id thiết bị!',
+                message: "Hãy nhập Id thiết bị!",
               },
             ]}
           >
@@ -78,7 +76,7 @@ const AddDeviceModal = (props) => {
           </Form.Item>
 
           <Form.Item style={{ marginBottom: 0 }}>
-            <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+            <div style={{ display: "flex", justifyContent: "flex-end" }}>
               <Button onClick={closeModal}>Hủy</Button>
               <Button
                 type="primary"

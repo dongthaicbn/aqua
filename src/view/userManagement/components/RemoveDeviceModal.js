@@ -1,10 +1,10 @@
-import React, { useState } from 'react';
-import { Modal, Form, Input, Button, message, Tag } from 'antd';
-import { CloseOutlined } from '@ant-design/icons';
-import { FormattedMessage } from 'react-intl';
-import { removeDeviceID } from '../UserManagementAction';
-import { TOKEN } from 'utils/constants/constants';
-import { isEmpty } from 'utils/helpers/helpers';
+import React, { useState } from "react";
+import { Modal, Form, Input, Button, message, Tag } from "antd";
+import { CloseOutlined } from "@ant-design/icons";
+import { FormattedMessage } from "react-intl";
+import { removeDeviceID } from "../UserManagementAction";
+import { TOKEN } from "utils/constants/constants";
+import { isEmpty } from "utils/helpers/helpers";
 
 const RemoveDeviceModal = (props) => {
   const { fetchData, item, device_id } = props;
@@ -27,7 +27,7 @@ const RemoveDeviceModal = (props) => {
       });
       if (!isEmpty(data.data)) {
         if (fetchData) fetchData();
-        message.success('Remove device thành công');
+        message.success("Remove device thành công");
         closeModal();
       } else {
         message.error(data.message);
@@ -38,16 +38,14 @@ const RemoveDeviceModal = (props) => {
     }
   };
 
-  const onFinishFailed = (errorInfo) => {
-    console.log('Failed:', errorInfo);
-  };
+  const onFinishFailed = (errorInfo) => {};
   return (
     <>
       <Tag color="#108ee9">
         {device_id}
         <CloseOutlined
           onClick={openModal}
-          style={{ marginLeft: 8, cursor: 'pointer' }}
+          style={{ marginLeft: 8, cursor: "pointer" }}
         />
       </Tag>
 
@@ -79,7 +77,7 @@ const RemoveDeviceModal = (props) => {
           </Form.Item>
 
           <Form.Item style={{ marginBottom: 0 }}>
-            <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+            <div style={{ display: "flex", justifyContent: "flex-end" }}>
               <Button onClick={closeModal}>Hủy</Button>
               <Button
                 type="primary"

@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
-import { Modal, Form, Input, Button, message } from 'antd';
-import { FormattedMessage } from 'react-intl';
-import { removeDeviceID } from 'view/userManagement/UserManagementAction';
-import { TOKEN } from 'utils/constants/constants';
-import { isEmpty } from 'utils/helpers/helpers';
+import React, { useState } from "react";
+import { Modal, Form, Input, Button, message } from "antd";
+import { FormattedMessage } from "react-intl";
+import { removeDeviceID } from "view/userManagement/UserManagementAction";
+import { TOKEN } from "utils/constants/constants";
+import { isEmpty } from "utils/helpers/helpers";
 
 const RemoveDeviceModal = (props) => {
   const { fetchData, item, device_id, handleClose } = props;
@@ -24,7 +24,7 @@ const RemoveDeviceModal = (props) => {
       });
       if (!isEmpty(data.data)) {
         if (fetchData) fetchData();
-        message.success('Xóa thiết bị thành công');
+        message.success("Xóa thiết bị thành công");
         closeModal();
       } else {
         message.error(data.message);
@@ -35,9 +35,7 @@ const RemoveDeviceModal = (props) => {
     }
   };
 
-  const onFinishFailed = (errorInfo) => {
-    console.log('Failed:', errorInfo);
-  };
+  const onFinishFailed = (errorInfo) => {};
   return (
     <>
       <Modal
@@ -70,7 +68,7 @@ const RemoveDeviceModal = (props) => {
           </Form.Item>
 
           <Form.Item style={{ marginBottom: 0 }}>
-            <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+            <div style={{ display: "flex", justifyContent: "flex-end" }}>
               <Button onClick={closeModal}>Hủy</Button>
               <Button
                 type="primary"

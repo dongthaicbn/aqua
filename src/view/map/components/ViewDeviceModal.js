@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
-import moment from 'moment';
-import ReactExport from 'react-data-export';
+import React, { useState, useEffect } from "react";
+import moment from "moment";
+import ReactExport from "react-data-export";
 import {
   Modal,
   Form,
@@ -12,13 +12,14 @@ import {
   Empty,
   Table,
   Button,
-} from 'antd';
-import { readDeviceByDay, pumpControl } from '../MapAction';
-import { TOKEN } from 'utils/constants/constants';
-import { isEmpty } from 'utils/helpers/helpers';
+} from "antd";
+import { readDeviceByDay, pumpControl } from "../MapAction";
+import { TOKEN } from "utils/constants/constants";
+import { isEmpty } from "utils/helpers/helpers";
+import DeviceCharts from "./DeviceCharts";
 
-const FORMAT_DATE = 'HH:mm:ss DD/MM/YYYY';
-const FORMAT_SHORT_DATE = 'DD/MM/YYYY';
+const FORMAT_DATE = "HH:mm:ss DD/MM/YYYY";
+const FORMAT_SHORT_DATE = "DD/MM/YYYY";
 const ExcelFile = ReactExport.ExcelFile;
 const ExcelSheet = ReactExport.ExcelFile.ExcelSheet;
 const ExcelColumn = ReactExport.ExcelFile.ExcelColumn;
@@ -38,7 +39,7 @@ const ViewDeviceModal = (props) => {
       const { data } = await readDeviceByDay({
         device_id,
         // datetime: 1614435641,
-        datetime: moment(dateView).format('X'),
+        datetime: moment(dateView).format("X"),
         [TOKEN]: localStorage.getItem(TOKEN),
       });
       if (!isEmpty(data.data)) {
@@ -53,14 +54,14 @@ const ViewDeviceModal = (props) => {
       const { data } = await pumpControl({
         device_id,
         [TOKEN]: localStorage.getItem(TOKEN),
-        pumpControl: pumpValue ? 'ON' : 'OFF',
+        pumpControl: pumpValue ? "ON" : "OFF",
       });
-      if (!isEmpty(data.code === 'OK')) {
+      if (!isEmpty(data.code === "OK")) {
         fetchDeviceDetail();
         message.success(
           pumpValue
-            ? 'Lệnh bật máy bơm đã gửi thành công'
-            : 'Lệnh tắt máy bơm đã gửi thành công'
+            ? "Lệnh bật máy bơm đã gửi thành công"
+            : "Lệnh tắt máy bơm đã gửi thành công"
         );
       } else {
         message.error(data.message);
@@ -76,23 +77,23 @@ const ViewDeviceModal = (props) => {
   };
   let columns = [
     {
-      title: 'Thời gian',
-      dataIndex: 'dt',
-      key: 'dt',
+      title: "Thời gian",
+      dataIndex: "dt",
+      key: "dt",
       width: 80,
       render: (text, row, index) => {
-        return <span>{moment.utc(row.dt).format('HH:mm:ss')}</span>;
+        return <span>{moment.utc(row.dt).format("HH:mm:ss")}</span>;
       },
     },
-    { title: 'VIN [V]', width: 60, dataIndex: 'vin', key: 'vin' },
-    { title: 'Trạng thái máy bơm', dataIndex: 'pumpState', key: 'pumpState' },
+    { title: "VIN [V]", width: 60, dataIndex: "vin", key: "vin" },
+    { title: "Trạng thái máy bơm", dataIndex: "pumpState", key: "pumpState" },
   ];
   if (!isEmpty(device?.device)) {
     [1, 2, 3, 4, 5, 6, 7, 8].forEach((el) => {
       const tempConfig = device?.device[`config${el}`];
       columns.push({
         title: `${tempConfig.input_name} [${tempConfig.input_unit}]`,
-        dataIndex: 'data',
+        dataIndex: "data",
         key: `config${el}`,
         render: (text, row, index) => {
           return row.data[el - 1];
@@ -109,10 +110,10 @@ const ViewDeviceModal = (props) => {
             {!isEmpty(device) && (
               <>
                 <span className="title-field title-modal-text">
-                  Cập nhật lần cuối:{' '}
+                  Cập nhật lần cuối:{" "}
                   {!isEmpty(device?.device)
                     ? moment(device?.device?.lastReceived).format(FORMAT_DATE)
-                    : ''}
+                    : ""}
                 </span>
               </>
             )}
@@ -124,7 +125,7 @@ const ViewDeviceModal = (props) => {
               <span className="title-field title-modal-text">
                 <Checkbox
                   onChange={(e) => handlePumpControl(e.target.checked)}
-                  checked={device?.device?.pump_state === 'ON'}
+                  checked={device?.device?.pump_state === "ON"}
                 >
                   Bật máy bơm
                 </Checkbox>
@@ -149,8 +150,8 @@ const ViewDeviceModal = (props) => {
                     key={i}
                     label={el.title}
                     value={(col) => {
-                      if (el.key.includes('config')) {
-                        const idx = el.key.replace('config', '');
+                      if (el.key.includes("config")) {
+                        const idx = el.key.replace("config", "");
                         return col.data[idx - 1];
                       }
                       return col[el.key];
@@ -170,7 +171,7 @@ const ViewDeviceModal = (props) => {
       >
         {!isEmpty(device) ? (
           <>
-            <Row gutter={16}>
+            <Row gutter={16} style={{ marginBottom: 24 }}>
               <Col span={4} className="device-info">
                 <Col className="field-info">
                   <p className="title-field">Device Name</p>
@@ -189,10 +190,10 @@ const ViewDeviceModal = (props) => {
                   <p
                     className="sub-field"
                     style={{
-                      color: device?.device?.status ? '#39ca74' : 'red',
+                      color: device?.device?.status ? "#39ca74" : "red",
                     }}
                   >
-                    {device?.device?.status ? 'Đang kết nối' : 'Mất kết nối'}
+                    {device?.device?.status ? "Đang kết nối" : "Mất kết nối"}
                   </p>
                 </Col>
               </Col>
@@ -212,6 +213,7 @@ const ViewDeviceModal = (props) => {
                 />
               </Col>
             </Row>
+            <DeviceCharts />
           </>
         ) : (
           <Empty style={{ margin: 80 }} />
