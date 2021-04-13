@@ -79,9 +79,9 @@ const ViewDeviceModal = (props) => {
       title: 'Thời gian',
       dataIndex: 'dt',
       key: 'dt',
-      width: 150,
+      width: 80,
       render: (text, row, index) => {
-        return <span>{moment.utc(row.dt).format('DD/MM/YYYY HH:mm:ss')}</span>;
+        return <span>{moment.utc(row.dt).format('HH:mm:ss')}</span>;
       },
     },
     { title: 'VIN [V]', width: 60, dataIndex: 'vin', key: 'vin' },
