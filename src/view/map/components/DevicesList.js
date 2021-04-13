@@ -20,6 +20,7 @@ let itemSelected = null;
 let device_id = null;
 const DevicesList = (props) => {
   const {
+    account,
     userInfo,
     userList,
     deviceList,
@@ -28,17 +29,20 @@ const DevicesList = (props) => {
     handleSelectDevice,
   } = props;
   const [visible, setVisible] = useState(null);
-
-  const genExtra = (item) => (
-    <PlusOutlined
-      title="Thêm device"
-      onClick={(event) => {
-        setVisible('add');
-        itemSelected = item;
-        event.stopPropagation();
-      }}
-    />
-  );
+  const isAdmin = !isEmpty(account) && account.permission === 'admin';
+  const genExtra = (item) => {
+    if (!isAdmin) return null;
+    return (
+      <PlusOutlined
+        title="Thêm device"
+        onClick={(event) => {
+          setVisible('add');
+          itemSelected = item;
+          event.stopPropagation();
+        }}
+      />
+    );
+  };
   const handleCloseModal = () => {
     itemSelected = null;
     device_id = null;
@@ -74,27 +78,31 @@ const DevicesList = (props) => {
                             event.stopPropagation();
                           }}
                         />
-                        <EditOutlined
-                          className="icon-center"
-                          title="Chỉnh sửa cấu hình"
-                          style={{ marginRight: 8 }}
-                          onClick={(event) => {
-                            itemSelected = el;
-                            device_id = it;
-                            setVisible('edit');
-                            event.stopPropagation();
-                          }}
-                        />
-                        <DeleteOutlined
-                          className="icon-center"
-                          title="Xóa device"
-                          onClick={(event) => {
-                            itemSelected = el;
-                            device_id = it;
-                            setVisible('remove');
-                            event.stopPropagation();
-                          }}
-                        />
+                        {isAdmin && (
+                          <>
+                            <EditOutlined
+                              className="icon-center"
+                              title="Chỉnh sửa cấu hình"
+                              style={{ marginRight: 8 }}
+                              onClick={(event) => {
+                                itemSelected = el;
+                                device_id = it;
+                                setVisible('edit');
+                                event.stopPropagation();
+                              }}
+                            />
+                            <DeleteOutlined
+                              className="icon-center"
+                              title="Xóa device"
+                              onClick={(event) => {
+                                itemSelected = el;
+                                device_id = it;
+                                setVisible('remove');
+                                event.stopPropagation();
+                              }}
+                            />
+                          </>
+                        )}
                       </span>
                     </p>
                   );

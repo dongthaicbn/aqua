@@ -12,7 +12,7 @@ import { getUsers } from '../userManagement/UserManagementAction';
 import { isEmpty } from 'utils/helpers/helpers';
 
 const Map = (props) => {
-  const { users } = props;
+  const { users, account } = props;
   const [userInfo, setUserInfo] = useState({});
   const [deviceSelected, setDeviceSelected] = useState({});
 
@@ -80,6 +80,7 @@ const Map = (props) => {
       />
 
       <DevicesList
+        account={account}
         userInfo={userInfo}
         userList={users}
         deviceList={userInfo.list_device_info || []}
@@ -94,6 +95,7 @@ const Map = (props) => {
 export default connect(
   (state) => ({
     users: state.system.users,
+    account: state.system.account,
   }),
   { getUsers }
 )(withRouter(Map));

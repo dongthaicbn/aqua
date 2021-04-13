@@ -8,11 +8,14 @@ import './Layout.scss';
 import { routes } from 'utils/constants/constants';
 import * as icons from 'assets';
 import { getUsers } from 'view/userManagement/UserManagementAction';
+import { isEmpty } from 'utils/helpers/helpers';
 
 const Sider = (props) => {
   const handleClick = ({ key }) => {
     props.history.push(key);
   };
+  const isAdmin =
+    !isEmpty(props.account) && props.account.permission === 'admin';
   return (
     <div className="sider-container">
       {/* <PerfectScrollbar> */}
@@ -33,12 +36,14 @@ const Sider = (props) => {
         >
           Quản lý device
         </Menu.Item>
-        <Menu.Item
-          key={routes.USER_MANAGEMENT}
-          icon={<img src={icons.avatar} alt="" className="icon-menu" />}
-        >
-          Quản lý người dùng
-        </Menu.Item>
+        {isAdmin && (
+          <Menu.Item
+            key={routes.USER_MANAGEMENT}
+            icon={<img src={icons.avatar} alt="" className="icon-menu" />}
+          >
+            Quản lý người dùng
+          </Menu.Item>
+        )}
       </Menu>
       {/* </PerfectScrollbar> */}
     </div>
