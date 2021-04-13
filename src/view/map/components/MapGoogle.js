@@ -184,7 +184,12 @@ const MapGoogle = compose(
                   >
                     <img
                       src={icons.ic_location}
-                      style={{ transform: 'rotate(-45deg)' }}
+                      style={{
+                        transform: 'rotate(-45deg)',
+                        width: 24,
+                        marginTop: 6,
+                        marginLeft: 6,
+                      }}
                       alt=""
                     />
                   </div>

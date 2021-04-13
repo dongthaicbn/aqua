@@ -44,7 +44,7 @@ const Login = (props) => {
     <div className="login-wrapper">
       <div className="login-left">
         <div className="logo-content">
-          <img src={icons.logo_transparent} alt="logo" />
+          <img src={icons.logo} alt="logo" />
           <div className="login-text">
             <p className="login-header">Water Network Management System</p>
             <Divider style={{ background: 'white' }} />
@@ -55,7 +55,7 @@ const Login = (props) => {
         </div>
       </div>
       <div className="login-container">
-        <img src={icons.logo_transparent} className="logo-img" alt="logo" />
+        <img src={icons.logo} className="logo-img" alt="logo" />
         {showErrMes && <p className="fail-text">{showErrMes}</p>}
         <Form
           onFinish={onFinish}
