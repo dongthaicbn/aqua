@@ -3,8 +3,12 @@
   padding: 16px;
   .logo-container {
     display: flex;
+    align-items: center;
+    font-size: 24px;
+    color: white;
     img {
       width: 100%;
+      max-width: 40px;
     }
   }
   .icon-menu {

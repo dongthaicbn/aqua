@@ -17,7 +17,8 @@ const Sider = (props) => {
     <div className="sider-container">
       {/* <PerfectScrollbar> */}
       <div className="logo-container">
-        <img src={icons.logo_white} alt="logo" />
+        <img src={icons.logo} alt="logo" />
+        <p style={{ margin: 0, marginLeft: 12 }}>IOT THỦY SẢN</p>
       </div>
       <Divider style={{ background: 'white' }} />
       <Menu
