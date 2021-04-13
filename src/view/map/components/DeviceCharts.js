@@ -34,7 +34,7 @@ const DeviceCharts = (props) => {
         width: [1, 1, 4],
       },
       title: {
-        text: "XYZ - Stock Analysis (2009 - 2016)",
+        text: "Stock Analysis (2009 - 2016)",
         align: "left",
         offsetX: 110,
       },
@@ -75,7 +75,7 @@ const DeviceCharts = (props) => {
             },
           },
           title: {
-            text: "Operating Cashflow (thousand crores)",
+            text: "Operating Cashflow",
             style: {
               color: "#00E396",
             },
@@ -125,7 +125,7 @@ const DeviceCharts = (props) => {
           options={data.options}
           series={data.series}
           type="line"
-          height={350}
+          height={250}
           width="100%"
         />
       </div>

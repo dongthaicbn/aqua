@@ -207,7 +207,7 @@ const ViewDeviceModal = (props) => {
                   columns={columns}
                   pagination={false}
                   bordered
-                  scroll={{ y: 350 }}
+                  scroll={{ y: 300 }}
                   size="small"
                   rowKey={(record) => record?.dt}
                 />

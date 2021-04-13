@@ -77,7 +77,9 @@ const DevicesList = (props) => {
                         <Radio
                           checked
                           className={
-                            item.status ? "online-device" : "offline-device"
+                            item && item.status
+                              ? "online-device"
+                              : "offline-device"
                           }
                         />
                         {item ? item.device_name : ""} ({it})
