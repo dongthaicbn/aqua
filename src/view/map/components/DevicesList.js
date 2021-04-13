@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Collapse } from 'antd';
+import { Collapse, Radio } from 'antd';
 import {
   PlusOutlined,
   DeleteOutlined,
@@ -57,6 +57,7 @@ const DevicesList = (props) => {
               {!isEmpty(el.Value.listDevices) &&
                 el.Value.listDevices.map((it) => {
                   const item = deviceList.find((v) => v.device_id === it);
+                  console.log('el', item);
                   return (
                     <p
                       key={it}
@@ -65,7 +66,23 @@ const DevicesList = (props) => {
                       }`}
                       onClick={() => handleSelectDevice(item)}
                     >
-                      {item ? item.device_name : ''} ({it})
+                      <span
+                        style={{
+                          whiteSpace: 'nowrap',
+                          overflow: 'hidden',
+                          textOverflow: 'ellipsis',
+                          marginRight: 8,
+                        }}
+                        title={`${item ? item.device_name : ''} (${it})`}
+                      >
+                        <Radio
+                          checked
+                          className={
+                            item.status ? 'online-device' : 'offline-device'
+                          }
+                        />
+                        {item ? item.device_name : ''} ({it})
+                      </span>
                       <span style={{ display: 'flex' }}>
                         <EyeOutlined
                           className="icon-center"

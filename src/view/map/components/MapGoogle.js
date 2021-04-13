@@ -6,7 +6,6 @@ import {
   withGoogleMap,
   withScriptjs,
   OverlayView,
-  InfoWindow,
 } from 'react-google-maps';
 import * as icons from 'assets';
 import { HistoryOutlined } from '@ant-design/icons';
@@ -147,7 +146,7 @@ const MapGoogle = compose(
                               color: infoItem.high_warning
                                 ? '#f44336'
                                 : infoItem.low_warning
-                                ? '#fdd835'
+                                ? '#ff9800'
                                 : '#212121',
                             }}
                           >
