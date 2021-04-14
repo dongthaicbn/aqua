@@ -128,16 +128,26 @@ const MapGoogle = compose(
                         &nbsp;
                         {moment.utc(el.lastReceived).format('DD/MM/YYYY HH:mm')}
                       </span>
-                      <li>
+
+                      <p style={{ margin: 0, marginLeft: -16 }}>
                         <span style={{ fontWeight: 600 }}>Vin</span>
                         :&nbsp;{el.vin} (V)
-                      </li>
+                      </p>
+                      <p style={{ margin: 0, marginLeft: -16 }}>
+                        Thiết bị:&nbsp;
+                        <span style={{ color: el.status ? '#01bf01' : 'red' }}>
+                          {el.status ? 'Đang kết nối' : 'Mất kết nối'}
+                        </span>
+                      </p>
                       {el.hasPump && (
-                        <li
-                          style={{ color: el.pump_state ? '#01bf01' : 'red' }}
-                        >
-                          {el.pump_state ? 'Đang kết nối' : 'Mất kết nối'}
-                        </li>
+                        <p style={{ margin: 0, marginLeft: -16 }}>
+                          Bơm:&nbsp;
+                          <span
+                            style={{ color: el.pump_state ? '#01bf01' : 'red' }}
+                          >
+                            {el.pump_state ? 'Đang kết nối' : 'Mất kết nối'}
+                          </span>
+                        </p>
                       )}
                       <div className="divider-map-info" />
                       {!isEmpty(dataInfo) &&
