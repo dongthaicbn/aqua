@@ -129,25 +129,31 @@ const MapGoogle = compose(
                         {moment.utc(el.lastReceived).format('DD/MM/YYYY HH:mm')}
                       </span>
 
-                      <p style={{ margin: 0, marginLeft: -16 }}>
-                        <span style={{ fontWeight: 600 }}>Vin</span>
-                        :&nbsp;{el.vin} (V)
-                      </p>
-                      <p style={{ margin: 0, marginLeft: -16 }}>
-                        Thiết bị:&nbsp;
+                      <div className="text-info-item">
+                        <p>
+                          Điện áp<span>:&nbsp;</span>
+                        </p>
+                        {el.vin} (V)
+                      </div>
+                      <div className="text-info-item">
+                        <p>
+                          Thiết bị<span>:&nbsp;</span>
+                        </p>
                         <span style={{ color: el.status ? '#01bf01' : 'red' }}>
                           {el.status ? 'Đang kết nối' : 'Mất kết nối'}
                         </span>
-                      </p>
+                      </div>
                       {el.hasPump && (
-                        <p style={{ margin: 0, marginLeft: -16 }}>
-                          Bơm:&nbsp;
+                        <div className="text-info-item">
+                          <p>
+                            Bơm<span>:&nbsp;</span>
+                          </p>
                           <span
                             style={{ color: el.pump_state ? '#01bf01' : 'red' }}
                           >
                             {el.pump_state ? 'Đang kết nối' : 'Mất kết nối'}
                           </span>
-                        </p>
+                        </div>
                       )}
                       <div className="divider-map-info" />
                       {!isEmpty(dataInfo) &&
