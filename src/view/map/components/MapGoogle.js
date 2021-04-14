@@ -149,9 +149,15 @@ const MapGoogle = compose(
                             Bơm<span>:&nbsp;</span>
                           </p>
                           <span
-                            style={{ color: el.pump_state ? '#01bf01' : 'red' }}
+                            style={{
+                              color: el.pump_state === 'ON' ? '#01bf01' : 'red',
+                            }}
                           >
-                            {el.pump_state ? 'Đang kết nối' : 'Mất kết nối'}
+                            {el.pump_state === 'ON'
+                              ? 'Bật'
+                              : el.pump_state === 'OFF'
+                              ? 'Tắt'
+                              : 'Mất kết nối'}
                           </span>
                         </div>
                       )}
