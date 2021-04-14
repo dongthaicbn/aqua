@@ -1,18 +1,18 @@
-import React, { useState } from "react";
-import { Collapse, Radio } from "antd";
+import React, { useState } from 'react';
+import { Collapse, Radio } from 'antd';
 import {
   PlusOutlined,
   DeleteOutlined,
   EditOutlined,
   EyeOutlined,
-} from "@ant-design/icons";
-import { withRouter } from "react-router-dom";
-import "../Map.scss";
-import { isEmpty } from "utils/helpers/helpers";
-import AddDeviceModal from "./AddDeviceModal";
-import RemoveDeviceModal from "./RemoveDeviceModal";
-import EditDeviceModal from "./EditDeviceModal";
-import ViewDeviceModal from "./ViewDeviceModal";
+} from '@ant-design/icons';
+import { withRouter } from 'react-router-dom';
+import '../Map.scss';
+import { isEmpty } from 'utils/helpers/helpers';
+import AddDeviceModal from './AddDeviceModal';
+import RemoveDeviceModal from './RemoveDeviceModal';
+import EditDeviceModal from './EditDeviceModal';
+import ViewDeviceModal from './ViewDeviceModal';
 
 const { Panel } = Collapse;
 
@@ -29,14 +29,14 @@ const DevicesList = (props) => {
     handleSelectDevice,
   } = props;
   const [visible, setVisible] = useState(null);
-  const isAdmin = !isEmpty(account) && account.permission === "admin";
+  const isAdmin = !isEmpty(account) && account.permission === 'admin';
   const genExtra = (item) => {
     if (!isAdmin) return null;
     return (
       <PlusOutlined
         title="Thêm device"
         onClick={(event) => {
-          setVisible("add");
+          setVisible('add');
           itemSelected = item;
           event.stopPropagation();
         }}
@@ -48,9 +48,10 @@ const DevicesList = (props) => {
     device_id = null;
     setVisible(null);
   };
+  if (isEmpty(userList)) return null;
   return (
     <div className="device-list">
-      <Collapse defaultActiveKey={["1"]} ghost>
+      <Collapse defaultActiveKey={['1']} ghost>
         {!isEmpty(userList) &&
           userList.map((el) => (
             <Panel header={el.Value.username} key={el.Key} extra={genExtra(el)}>
@@ -61,30 +62,30 @@ const DevicesList = (props) => {
                     <p
                       key={it}
                       className={`device-item ${
-                        deviceSelected.device_id === it ? "active-device" : ""
+                        deviceSelected.device_id === it ? 'active-device' : ''
                       }`}
                       onClick={() => handleSelectDevice(item)}
                     >
                       <span
                         style={{
-                          whiteSpace: "nowrap",
-                          overflow: "hidden",
-                          textOverflow: "ellipsis",
+                          whiteSpace: 'nowrap',
+                          overflow: 'hidden',
+                          textOverflow: 'ellipsis',
                           marginRight: 8,
                         }}
-                        title={`${item ? item.device_name : ""} (${it})`}
+                        title={`${item ? item.device_name : ''} (${it})`}
                       >
                         <Radio
                           checked
                           className={
                             item && item.status
-                              ? "online-device"
-                              : "offline-device"
+                              ? 'online-device'
+                              : 'offline-device'
                           }
                         />
-                        {item ? item.device_name : ""} ({it})
+                        {item ? item.device_name : ''} ({it})
                       </span>
-                      <span style={{ display: "flex" }}>
+                      <span style={{ display: 'flex' }}>
                         <EyeOutlined
                           className="icon-center"
                           title="Xem chi tiết"
@@ -92,7 +93,7 @@ const DevicesList = (props) => {
                           onClick={(event) => {
                             itemSelected = el;
                             device_id = it;
-                            setVisible("view");
+                            setVisible('view');
                             event.stopPropagation();
                           }}
                         />
@@ -105,7 +106,7 @@ const DevicesList = (props) => {
                               onClick={(event) => {
                                 itemSelected = el;
                                 device_id = it;
-                                setVisible("edit");
+                                setVisible('edit');
                                 event.stopPropagation();
                               }}
                             />
@@ -115,7 +116,7 @@ const DevicesList = (props) => {
                               onClick={(event) => {
                                 itemSelected = el;
                                 device_id = it;
-                                setVisible("remove");
+                                setVisible('remove');
                                 event.stopPropagation();
                               }}
                             />
@@ -128,14 +129,14 @@ const DevicesList = (props) => {
             </Panel>
           ))}
       </Collapse>
-      {visible === "add" && (
+      {visible === 'add' && (
         <AddDeviceModal
           fetchData={fetchUserList}
           item={itemSelected}
           handleClose={handleCloseModal}
         />
       )}
-      {visible === "remove" && (
+      {visible === 'remove' && (
         <RemoveDeviceModal
           fetchData={fetchUserList}
           item={itemSelected}
@@ -143,7 +144,7 @@ const DevicesList = (props) => {
           handleClose={handleCloseModal}
         />
       )}
-      {visible === "edit" && (
+      {visible === 'edit' && (
         <EditDeviceModal
           fetchData={fetchUserList}
           device_id={device_id}
@@ -153,7 +154,7 @@ const DevicesList = (props) => {
           handleClose={handleCloseModal}
         />
       )}
-      {visible === "view" && (
+      {visible === 'view' && (
         <ViewDeviceModal device_id={device_id} handleClose={handleCloseModal} />
       )}
     </div>
