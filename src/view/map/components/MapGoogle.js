@@ -138,6 +138,7 @@ const MapGoogle = compose(
                           {el.status ? 'Đang kết nối' : 'Mất kết nối'}
                         </li>
                       )}
+                      <div className="divider-map-info" />
                       {!isEmpty(dataInfo) &&
                         dataInfo.map((infoItem, i) => (
                           <li
@@ -182,7 +183,9 @@ const MapGoogle = compose(
                     }}
                   >
                     <img
-                      src={icons.ic_location}
+                      src={
+                        isOnline ? icons.ic_location_online : icons.ic_location
+                      }
                       style={{
                         transform: 'rotate(-45deg)',
                         width: 24,
