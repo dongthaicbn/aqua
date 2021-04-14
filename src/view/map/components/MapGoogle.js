@@ -62,7 +62,6 @@ const MapGoogle = compose(
     x: -(width / 2),
     y: -(height / 2),
   });
-
   return (
     <>
       <GoogleMap
@@ -134,8 +133,10 @@ const MapGoogle = compose(
                         :&nbsp;{el.vin} (V)
                       </li>
                       {el.hasPump && (
-                        <li style={{ color: el.status ? '#01bf01' : 'red' }}>
-                          {el.status ? 'Đang kết nối' : 'Mất kết nối'}
+                        <li
+                          style={{ color: el.pump_state ? '#01bf01' : 'red' }}
+                        >
+                          {el.pump_state ? 'Đang kết nối' : 'Mất kết nối'}
                         </li>
                       )}
                       <div className="divider-map-info" />
