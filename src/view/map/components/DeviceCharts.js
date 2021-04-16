@@ -1,11 +1,22 @@
 import React from "react";
 import moment from "moment";
 import ReactApexChart from "react-apexcharts";
+import { isEmpty } from "utils/helpers/helpers";
 
 const DeviceCharts = (props) => {
-  const { date, device } = props;
-  console.log("date", date, device);
-  // const { list_data_in_day, device };
+  const { date, deviceInfo } = props;
+  console.log("date", date, deviceInfo);
+  const { list_data_in_day, device } = deviceInfo;
+  const getConfigs = () => {
+    const configs = [];
+    if (!isEmpty(device)) {
+      [(1, 2, 3, 4, 5, 6, 7, 8)].forEach((it) => {
+        if (device[`config${it}`].is_display_graph) {
+          configs.push({ ...device[`config${it}`] });
+        }
+      });
+    }
+  };
   const data = {
     series: [
       {
@@ -36,103 +47,47 @@ const DeviceCharts = (props) => {
         stacked: false,
         toolbar: false,
       },
-      dataLabels: {
-        enabled: false,
-      },
-      stroke: {
-        width: [1, 1, 4],
-      },
+      dataLabels: { enabled: false },
+      stroke: { width: [1, 1, 4] },
       title: {
         text: `Data Sensor Ngày ${moment(date).format("DD/MM/YYYY")}`,
         align: "left",
-        offsetX: 110,
+        offsetX: 0,
       },
       xaxis: {
         categories: [2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016],
       },
       yaxis: [
         {
-          axisTicks: {
-            show: true,
-          },
-          axisBorder: {
-            show: true,
-            color: "#008FFB",
-          },
-          labels: {
-            style: { colors: "#008FFB" },
-          },
-          title: {
-            text: "Income",
-            style: { color: "#008FFB" },
-          },
+          axisTicks: { show: true },
+          axisBorder: { show: true, color: "#008FFB" },
+          labels: { style: { colors: "#008FFB" } },
+          title: { text: "Income", style: { color: "#008FFB" } },
           tooltip: { enabled: true },
         },
         {
           seriesName: "Income",
           opposite: true,
-          axisTicks: {
-            show: true,
-          },
-          axisBorder: {
-            show: true,
-            color: "#00E396",
-          },
-          labels: {
-            style: {
-              colors: "#00E396",
-            },
-          },
-          title: {
-            text: "Operating",
-            style: {
-              color: "#00E396",
-            },
-          },
+          axisTicks: { show: true },
+          axisBorder: { show: true, color: "#00E396" },
+          labels: { style: { colors: "#00E396" } },
+          title: { text: "Operating", style: { color: "#00E396" } },
         },
         {
           seriesName: "Revenue",
           opposite: true,
-          axisTicks: {
-            show: true,
-          },
-          axisBorder: {
-            show: true,
-            color: "#FEB019",
-          },
-          labels: {
-            style: {
-              colors: "#FEB019",
-            },
-          },
-          title: {
-            text: "Revenue",
-            style: {
-              color: "#FEB019",
-            },
-          },
+          axisTicks: { show: true },
+          axisBorder: { show: true, color: "#FEB019" },
+          labels: { style: { colors: "#FEB019" } },
+          title: { text: "Revenue", style: { color: "#FEB019" } },
         },
         {
           seriesName: "Revenue",
           opposite: true,
-          axisTicks: {
-            show: true,
-          },
-          axisBorder: {
-            show: true,
-            color: "#FEB019",
-          },
-          labels: {
-            style: {
-              colors: "#FEB019",
-            },
-          },
-          title: {
-            text: "Revenueaaaa",
-            style: {
-              color: "#FEB019",
-            },
-          },
+          axisTicks: { show: true },
+          axisBorder: { show: true, color: "#FEB019" },
+          labels: { style: { colors: "#FEB019" } },
+          title: { text: "Revenueaaaa", style: { color: "#FEB019" } },
         },
       ],
       tooltip: {
@@ -143,10 +98,7 @@ const DeviceCharts = (props) => {
           offsetX: 60,
         },
       },
-      legend: {
-        horizontalAlign: "left",
-        offsetX: 40,
-      },
+      legend: { horizontalAlign: "left", offsetX: 40 },
     },
   };
   return (
