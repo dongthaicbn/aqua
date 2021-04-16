@@ -221,7 +221,7 @@ const ViewDeviceModal = (props) => {
                 />
               </Col>
             </Row>
-            <DeviceCharts />
+            <DeviceCharts date={dateView} device={device} />
           </>
         ) : (
           <Empty style={{ margin: 80 }} />
