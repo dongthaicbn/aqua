@@ -106,7 +106,6 @@ const MapGoogle = compose(
             const isOnline = el.status;
             if (isEmpty(el) || (el.latitude === 0 && el.longitude === 0))
               return null;
-            console.log('el', el);
             return (
               <Marker
                 key={el.device_id}
