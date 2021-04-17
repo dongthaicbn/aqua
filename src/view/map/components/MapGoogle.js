@@ -1,11 +1,13 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { Button, Radio } from 'antd';
 import moment from 'moment';
 import {
   GoogleMap,
   withGoogleMap,
   withScriptjs,
-  OverlayView,
+  // OverlayView,
+  Marker,
+  InfoWindow,
 } from 'react-google-maps';
 import * as icons from 'assets';
 import { HistoryOutlined } from '@ant-design/icons';
@@ -30,6 +32,7 @@ const MapGoogle = compose(
   withScriptjs,
   withGoogleMap
 )((props) => {
+  let ref = useRef(null);
   const { deviceList, deviceSelected, handleSelectDevice } = props;
   // const items = [{ latitude: 21.00626, longitude: 105.85537, id: 1 }];
   // const coordinateActive = { latitude: 21.00626, longitude: 105.85537 };
@@ -37,14 +40,27 @@ const MapGoogle = compose(
   const [zoom] = React.useState(12);
   const [visible, setVisible] = useState(null);
 
+  const defaultIcon = { url: icons.ic_location };
+  const highlightedIcon = { url: icons.ic_location_online };
   const handleCloseModal = () => {
     device_id = null;
     setVisible(null);
   };
+  // const fitBounds = () => {
+  //   const bounds = new window.google.maps.LatLngBounds();
+  //   items.map((el) => {
+  //     const { coordinate } = el.address;
+  //     bounds.extend({ lat: coordinate.latitude, lng: coordinate.longitude });
+  //     return el.id;
+  //   });
+  //   if (!ref.current) return;
+  //   ref.current.fitBounds(bounds);
+  // };
   useEffect(() => {
     setLoaded(true);
     return () => {
       setLoaded(false);
+      // ref = null;
     }; // eslint-disable-next-line
   }, []);
 
@@ -58,10 +74,10 @@ const MapGoogle = compose(
     draggableCursor: 'pointer',
     // gestureHandling: "none",
   };
-  const getPixelPositionOffset = (width, height) => ({
-    x: -(width / 2),
-    y: -(height / 2),
-  });
+  // const getPixelPositionOffset = (width, height) => ({
+  //   x: -(width / 2),
+  //   y: -(height / 2),
+  // });
   return (
     <>
       <GoogleMap
@@ -70,6 +86,7 @@ const MapGoogle = compose(
           lat: deviceSelected.latitude,
           lng: deviceSelected.longitude,
         }}
+        ref={ref}
         key={KEY_GOOGLE_MAP}
         defaultOptions={disableOption}
       >
@@ -87,139 +104,158 @@ const MapGoogle = compose(
             });
             // const isActive = el.device_id === deviceSelected.device_id;
             const isOnline = el.status;
-            if (isEmpty(el)) return null;
+            if (isEmpty(el) || (el.latitude === 0 && el.longitude === 0))
+              return null;
+            console.log('el', el);
             return (
-              <OverlayView
+              <Marker
                 key={el.device_id}
                 position={{ lat: el.latitude, lng: el.longitude }}
-                mapPaneName={OverlayView.OVERLAY_MOUSE_TARGET}
-                getPixelPositionOffset={getPixelPositionOffset}
+                // mapPaneName={OverlayView.OVERLAY_MOUSE_TARGET}
+                // getPixelPositionOffset={getPixelPositionOffset}
+                icon={isOnline ? highlightedIcon : defaultIcon}
+                // icon={defaultIcon}
               >
-                <div
-                  style={{
-                    backgroundColor: WHITE,
-                    color: '#212121',
-                    // backgroundColor: isActive ? BLUE : WHITE,
-                    // color: isActive ? WHITE : BLUE,
-                    fontSize: 14,
-                    lineHeight: '17px',
-                    padding: '3px 6px',
-                    borderRadius: 8,
-                    position: 'relative',
-                  }}
-                  onClick={() => handleSelectDevice(el)}
-                  aria-hidden="true"
+                <InfoWindow
+                // marker={this.state.activeMarker}
+                // onClose={this.onInfoWindowClose}
+                // visible={this.state.showingInfoWindow}
                 >
-                  <div>
-                    <Radio
-                      checked
-                      className={isOnline ? 'online-device' : 'offline-device'}
-                    />
-                    <span style={{ fontWeight: 600 }}>{el.device_name}</span>
-                    <ul style={{ padding: '4px 20px' }}>
-                      <span
-                        style={{
-                          marginLeft: -20,
-                          display: 'flex',
-                          alignItems: 'center',
-                        }}
-                      >
-                        <HistoryOutlined />
-                        &nbsp;
-                        {moment.utc(el.lastReceived).format('DD/MM/YYYY HH:mm')}
-                      </span>
-
-                      <div className="text-info-item">
-                        <p>
-                          Điện áp<span>:&nbsp;</span>
-                        </p>
-                        {el.vin} (V)
-                      </div>
-                      <div className="text-info-item">
-                        <p>
-                          Thiết bị<span>:&nbsp;</span>
-                        </p>
-                        <span style={{ color: el.status ? '#01bf01' : 'red' }}>
-                          {el.status ? 'Đang kết nối' : 'Mất kết nối'}
-                        </span>
-                      </div>
-                      {el.hasPump && (
-                        <div className="text-info-item">
-                          <p>
-                            Bơm<span>:&nbsp;</span>
-                          </p>
-                          <span
-                            style={{
-                              color: el.pump_state === 'ON' ? '#01bf01' : 'red',
-                            }}
-                          >
-                            {el.pump_state === 'ON'
-                              ? 'Bật'
-                              : el.pump_state === 'OFF'
-                              ? 'Tắt'
-                              : 'Mất kết nối'}
-                          </span>
-                        </div>
-                      )}
-                      <div className="divider-map-info" />
-                      {!isEmpty(dataInfo) &&
-                        dataInfo.map((infoItem, i) => (
-                          <li
-                            key={i}
-                            style={{
-                              color: infoItem.high_warning
-                                ? '#f44336'
-                                : infoItem.low_warning
-                                ? '#ff9800'
-                                : '#212121',
-                            }}
-                          >
-                            <span style={{ fontWeight: 600 }}>
-                              {infoItem.input_name}
-                            </span>
-                            :&nbsp;{infoItem.value} ({infoItem.input_unit})
-                          </li>
-                        ))}
-                    </ul>
-                    <Button
-                      className="detail-btn"
-                      type="primary"
-                      onClick={(event) => {
-                        device_id = el.device_id;
-                        setVisible('view');
-                        event.stopPropagation();
-                      }}
-                    >
-                      Chi tiết
-                    </Button>
-                  </div>
                   <div
                     style={{
-                      width: 9,
-                      height: 9,
                       backgroundColor: WHITE,
+                      color: '#212121',
                       // backgroundColor: isActive ? BLUE : WHITE,
-                      transform: 'rotate(45deg)',
-                      position: 'absolute',
-                      left: 'calc(50% - 5px)',
-                      marginTop: -1,
+                      // color: isActive ? WHITE : BLUE,
+                      fontSize: 14,
+                      lineHeight: '17px',
+                      // padding: '3px 6px',
+                      borderRadius: 8,
+                      position: 'relative',
                     }}
+                    onClick={() => handleSelectDevice(el)}
+                    aria-hidden="true"
                   >
-                    <img
-                      src={
-                        isOnline ? icons.ic_location_online : icons.ic_location
-                      }
+                    <div>
+                      <Radio
+                        checked
+                        className={
+                          isOnline ? 'online-device' : 'offline-device'
+                        }
+                      />
+                      <span style={{ fontWeight: 600 }}>{el.device_name}</span>
+                      <ul style={{ padding: '4px 20px' }}>
+                        <span
+                          style={{
+                            marginLeft: -20,
+                            display: 'flex',
+                            alignItems: 'center',
+                          }}
+                        >
+                          <HistoryOutlined />
+                          &nbsp;
+                          {moment
+                            .utc(el.lastReceived)
+                            .format('DD/MM/YYYY HH:mm')}
+                        </span>
+
+                        <div className="text-info-item">
+                          <p>
+                            Điện áp<span>:&nbsp;</span>
+                          </p>
+                          {el.vin} (V)
+                        </div>
+                        <div className="text-info-item">
+                          <p>
+                            Thiết bị<span>:&nbsp;</span>
+                          </p>
+                          <span
+                            style={{ color: el.status ? '#01bf01' : 'red' }}
+                          >
+                            {el.status ? 'Đang kết nối' : 'Mất kết nối'}
+                          </span>
+                        </div>
+                        {el.hasPump && (
+                          <div className="text-info-item">
+                            <p>
+                              Bơm<span>:&nbsp;</span>
+                            </p>
+                            <span
+                              style={{
+                                color:
+                                  el.pump_state === 'ON' ? '#01bf01' : 'red',
+                              }}
+                            >
+                              {el.pump_state === 'ON'
+                                ? 'Bật'
+                                : el.pump_state === 'OFF'
+                                ? 'Tắt'
+                                : 'Mất kết nối'}
+                            </span>
+                          </div>
+                        )}
+                        <div className="divider-map-info" />
+                        {!isEmpty(dataInfo) &&
+                          dataInfo.map((infoItem, i) => (
+                            <li
+                              key={i}
+                              style={{
+                                color: infoItem.high_warning
+                                  ? '#f44336'
+                                  : infoItem.low_warning
+                                  ? '#ff9800'
+                                  : '#212121',
+                              }}
+                            >
+                              <span style={{ fontWeight: 600 }}>
+                                {infoItem.input_name}
+                              </span>
+                              :&nbsp;{infoItem.value} ({infoItem.input_unit})
+                            </li>
+                          ))}
+                      </ul>
+                      <Button
+                        className="detail-btn"
+                        type="primary"
+                        onClick={(event) => {
+                          device_id = el.device_id;
+                          setVisible('view');
+                          event.stopPropagation();
+                        }}
+                      >
+                        Chi tiết
+                      </Button>
+                    </div>
+                    {/* <div
                       style={{
-                        transform: 'rotate(-45deg)',
-                        width: 24,
-                        marginTop: 6,
-                        marginLeft: 6,
+                        width: 9,
+                        height: 9,
+                        backgroundColor: WHITE,
+                        // backgroundColor: isActive ? BLUE : WHITE,
+                        transform: 'rotate(45deg)',
+                        position: 'absolute',
+                        left: 'calc(50% - 5px)',
+                        marginTop: -1,
                       }}
-                      alt=""
-                    />
+                    >
+                      <img
+                        src={
+                          isOnline
+                            ? icons.ic_location_online
+                            : icons.ic_location
+                        }
+                        style={{
+                          transform: 'rotate(-45deg)',
+                          width: 24,
+                          marginTop: 6,
+                          marginLeft: 6,
+                        }}
+                        alt=""
+                      />
+                    </div> */}
                   </div>
-                </div>
-              </OverlayView>
+                </InfoWindow>
+              </Marker>
             );
           })}
       </GoogleMap>
