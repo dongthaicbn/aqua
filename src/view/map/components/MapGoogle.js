@@ -21,6 +21,7 @@ export const KEY_GOOGLE_MAP = 'AIzaSyDemuTXbh1ONO1hYzbfP-TGCkPRI2jwaPA';
 // const BLUE = '#00B6F3';
 const WHITE = '#FFFFFF';
 let device_id = null;
+let deviceSave = [];
 
 const MapGoogle = compose(
   withProps({
@@ -39,6 +40,11 @@ const MapGoogle = compose(
   const [isLoaded, setLoaded] = useState(false);
   const [zoom] = React.useState(12);
   const [visible, setVisible] = useState(null);
+  const [coordinateActive, setCoordinateActive] = React.useState(
+    !isEmpty(deviceSelected)
+      ? { lat: deviceSelected.latitude, lng: deviceSelected.longitude }
+      : { lat: 21.00626, lng: 105.85537 }
+  );
 
   const defaultIcon = { url: icons.ic_location };
   const highlightedIcon = { url: icons.ic_location_online };
@@ -61,6 +67,7 @@ const MapGoogle = compose(
     return () => {
       setLoaded(false);
       // ref = null;
+      deviceSave = [];
     }; // eslint-disable-next-line
   }, []);
 
@@ -78,14 +85,36 @@ const MapGoogle = compose(
   //   x: -(width / 2),
   //   y: -(height / 2),
   // });
+  const fitBounds = () => {
+    const bounds = new window.google.maps.LatLngBounds();
+    deviceList.map((el) => {
+      bounds.extend({ lat: el.latitude, lng: el.longitude });
+      return el.device_id;
+    });
+    if (!ref.current) return;
+    ref.current.fitBounds(bounds);
+  };
+  useEffect(() => {
+    if (
+      !isEmpty(deviceList) &&
+      JSON.stringify(deviceSave) !== JSON.stringify(deviceList)
+    ) {
+      deviceSave = [...deviceList];
+      fitBounds();
+    } // eslint-disable-next-line
+  }, [deviceList]);
+  useEffect(() => {
+    if (!isEmpty(deviceSelected))
+      setCoordinateActive({
+        lat: deviceSelected.latitude,
+        lng: deviceSelected.longitude,
+      }); // eslint-disable-next-line
+  }, [deviceSelected]);
   return (
     <>
       <GoogleMap
         defaultZoom={zoom}
-        center={{
-          lat: deviceSelected.latitude,
-          lng: deviceSelected.longitude,
-        }}
+        center={coordinateActive}
         ref={ref}
         key={KEY_GOOGLE_MAP}
         defaultOptions={disableOption}
@@ -104,8 +133,7 @@ const MapGoogle = compose(
             });
             // const isActive = el.device_id === deviceSelected.device_id;
             const isOnline = el.status;
-            if (isEmpty(el) || (el.latitude === 0 && el.longitude === 0))
-              return null;
+            if (isEmpty(el)) return null;
             return (
               <Marker
                 key={el.device_id}
