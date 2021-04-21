@@ -1,8 +1,12 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import moment from 'moment';
-import ReactApexChart from 'react-apexcharts';
 import { isEmpty } from 'utils/helpers/helpers';
+import * as am4core from '@amcharts/amcharts4/core';
+import * as am4charts from '@amcharts/amcharts4/charts';
+import am4themes_animated from '@amcharts/amcharts4/themes/animated';
 
+am4core.useTheme(am4themes_animated);
+/* eslint-disable */
 const colors = [
   '#f44336',
   '#2196f3',
@@ -16,6 +20,9 @@ const colors = [
 const DeviceCharts = (props) => {
   const { date, deviceInfo } = props;
   // console.log('date', date, deviceInfo);
+  const chartEl = useRef(null);
+  const element = useRef();
+
   const { list_data_in_day, device } = deviceInfo;
   const getConfigSeries = () => {
     let configs = [];
@@ -24,11 +31,11 @@ const DeviceCharts = (props) => {
         const info = device[`config${it}`];
         if (info.is_display_graph) {
           configs.push({
-            type: 'line',
             name: info.input_name,
             index: it - 1,
             data: [],
             color: colors[it - 1],
+            field: `config${it}`,
           });
         }
       });
@@ -53,121 +60,101 @@ const DeviceCharts = (props) => {
   };
 
   const dataConfigDevice = getConfigSeries();
-  const getYaxis = () => {
-    let result = [];
-    if (!isEmpty(dataConfigDevice)) {
-      dataConfigDevice.forEach((el, i) => {
-        result.push({
-          seriesName: el.name,
-          opposite: i !== 0,
-          axisTicks: { show: true },
-          axisBorder: { show: true, color: el.color },
-          labels: { style: { colors: el.color } },
-          title: { text: el.name, style: { color: el.color } },
-        });
+
+  // test
+  const generateChartData = () => {
+    let chartData = [];
+    let firstDate = new Date();
+    firstDate.setDate(firstDate.getDate() - 100);
+    firstDate.setHours(0, 0, 0, 0);
+
+    if (!isEmpty(list_data_in_day)) {
+      list_data_in_day.forEach((el, i) => {
+        let result = { date: new Date(el.dt) };
+        if (!isEmpty(dataConfigDevice)) {
+          dataConfigDevice.forEach((el, idx) => {
+            result = { ...result, [el.field]: el.data[i] };
+          });
+        }
+        chartData.push(result);
       });
     }
-    return result;
+    return chartData;
   };
-  const dataYaxis = getYaxis();
-  const data = {
-    // series: [
-    //   {
-    //     name: 'Income',
-    //     type: 'line',
-    //     data: [1.4, 2, 2.5, 1.5, 2.5, 2.8, 3.8, 4.6],
-    //   },
-    //   {
-    //     name: 'Cashflow',
-    //     type: 'line',
-    //     data: [1.1, 3, 3.1, 4, 4.1, 4.9, 6.5, 8.5],
-    //   },
-    //   {
-    //     name: 'Revenue',
-    //     type: 'line',
-    //     data: [20, 29, 37, 36, 44, 45, 50, 58],
-    //   },
-    //   {
-    //     name: 'Revenueaaaa',
-    //     type: 'line',
-    //     data: [20, 29, 37, 36, 44, 45, 50, 58],
-    //   },
-    // ],
-    series: dataConfigDevice,
-    options: {
-      chart: {
-        height: 350,
-        type: 'line',
-        stacked: false,
-        toolbar: false,
-      },
-      dataLabels: { enabled: false },
-      stroke: { width: [1, 1, 4] },
-      title: {
-        text: `Data Sensor Ngày ${moment(date).format('DD/MM/YYYY')}`,
-        align: 'left',
-        offsetX: 0,
-      },
-      xaxis: {
-        // categories: [2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016],
-        categories: getCategories(),
-      },
-      yaxis: dataYaxis,
-      // yaxis: [
-      //   {
-      //     axisTicks: { show: true },
-      //     axisBorder: { show: true, color: '#008FFB' },
-      //     labels: { style: { colors: '#008FFB' } },
-      //     title: { text: 'Income', style: { color: '#008FFB' } },
-      //     tooltip: { enabled: true },
-      //   },
-      //   {
-      //     seriesName: 'Income',
-      //     opposite: true,
-      //     axisTicks: { show: true },
-      //     axisBorder: { show: true, color: '#00E396' },
-      //     labels: { style: { colors: '#00E396' } },
-      //     title: { text: 'Operating', style: { color: '#00E396' } },
-      //   },
-      //   {
-      //     seriesName: 'Revenue',
-      //     opposite: true,
-      //     axisTicks: { show: true },
-      //     axisBorder: { show: true, color: '#FEB019' },
-      //     labels: { style: { colors: '#FEB019' } },
-      //     title: { text: 'Revenue', style: { color: '#FEB019' } },
-      //   },
-      //   {
-      //     seriesName: 'Revenue',
-      //     opposite: true,
-      //     axisTicks: { show: true },
-      //     axisBorder: { show: true, color: '#FEB019' },
-      //     labels: { style: { colors: '#FEB019' } },
-      //     title: { text: 'Revenueaaaa', style: { color: '#FEB019' } },
-      //   },
-      // ],
-      tooltip: {
-        fixed: {
-          enabled: true,
-          position: 'topLeft', // topRight, topLeft, bottomRight, bottomLeft
-          offsetY: 30,
-          offsetX: 60,
-        },
-      },
-      legend: { horizontalAlign: 'left', offsetX: 40 },
-    },
+  const createAxisAndSeries = (chart, field, name, opposite) => {
+    let valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
+    if (chart.yAxes.indexOf(valueAxis) != 0) {
+      valueAxis.syncWithAxis = chart.yAxes.getIndex(0);
+    }
+
+    let series = chart.series.push(new am4charts.LineSeries());
+    series.dataFields.valueY = field;
+    series.dataFields.dateX = 'date';
+    series.strokeWidth = 2;
+    series.yAxis = valueAxis;
+    series.name = name;
+    series.tooltipText = '{name}: [bold]{valueY}[/]';
+    series.tensionX = 0.8;
+    series.showOnInit = true;
+
+    let interfaceColors = new am4core.InterfaceColorSet();
+
+    let bullet = series.bullets.push(new am4charts.CircleBullet());
+    bullet.circle.stroke = interfaceColors.getFor('background');
+    bullet.circle.strokeWidth = 2;
+
+    valueAxis.renderer.line.strokeOpacity = 1;
+    valueAxis.renderer.line.strokeWidth = 2;
+    valueAxis.renderer.line.stroke = series.stroke;
+    valueAxis.renderer.labels.template.fill = series.stroke;
+    valueAxis.renderer.opposite = opposite;
   };
+  const buildChart = () => {
+    if (element.current) {
+      let chart = am4core.create('chartdiv', am4charts.XYChart);
+      let dateAxis = chart.xAxes.push(new am4charts.DateAxis());
+      dateAxis.dateFormatter.dateFormat = 'HH:mm:ss';
+      dateAxis.renderer.minGridDistance = 50;
+      chart.data = generateChartData();
+      chart.colors.step = 2;
+      if (!isEmpty(dataConfigDevice)) {
+        dataConfigDevice.forEach((el, i) => {
+          createAxisAndSeries(chart, el.field, el.name, i % 2 === 0, 'circle');
+        });
+      }
+      chart.legend = new am4charts.Legend();
+
+      // Add cursor
+      chart.cursor = new am4charts.XYCursor();
+      let scrollbarX = new am4charts.XYChartScrollbar();
+      scrollbarX.minHeight = 28;
+      // scrollbarX.series.push(series);
+      chart.scrollbarX = scrollbarX;
+      chartEl.current = chart;
+    }
+  };
+  React.useEffect(() => {
+    buildChart();
+    return () => {
+      chartEl?.current?.dispose();
+    }; // eslint-disable-next-line
+  }, [deviceInfo]);
   return (
     <>
-      <div id="chart">
-        <ReactApexChart
-          options={data.options}
-          series={data.series}
-          type="line"
-          height={250}
-          width="100%"
-        />
-      </div>
+      <div
+        ref={element}
+        id="chartdiv"
+        style={{
+          height: 250,
+          width: '100%',
+          opacity: 1,
+          transition: 'opacity 0.3s',
+          display: 'flex',
+          top: 0,
+          left: 0,
+          right: 0,
+        }}
+      />
     </>
   );
 };
