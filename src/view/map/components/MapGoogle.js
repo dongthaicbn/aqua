@@ -25,7 +25,7 @@ let deviceSave = [];
 
 const MapGoogle = compose(
   withProps({
-    googleMapURL: `https://maps.googleapis.com/maps/api/js?key=${KEY_GOOGLE_MAP}&v=3.exp&libraries=geometry,drawing,places`,
+    googleMapURL: `https://maps.googleapis.com/maps/api/js?key=${KEY_GOOGLE_MAP}&v=3.exp&libraries=drawing`,
     loadingElement: <div style={{ width: '100%', height: '100%' }} />,
     containerElement: <div style={{ width: '100%', height: '100%' }} />,
     mapElement: <div style={{ width: '100%', height: '100%' }} />,
