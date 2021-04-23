@@ -34,7 +34,7 @@ const Sider = (props) => {
           key={routes.DEVICE_MANAGEMENT}
           icon={<img src={icons.avatar} alt="" className="icon-menu" />}
         >
-          Quản lý device
+          Quản lý thiết bị
         </Menu.Item>
         {isAdmin && (
           <Menu.Item
