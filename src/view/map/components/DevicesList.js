@@ -48,15 +48,28 @@ const DevicesList = (props) => {
     device_id = null;
     setVisible(null);
   };
-  if (isEmpty(userList)) return null;
+
+  let data = [];
+  if (account.permission === 'user') {
+    if (!isEmpty(userInfo))
+      data.push({
+        listDevices: userInfo.user.listDevices || [],
+        user: userInfo.user,
+      });
+  } else {
+    data = [...userList].map((v) => {
+      return { ...v, listDevices: v.Value.listDevices || [], user: v.Value };
+    });
+  }
+  if (isEmpty(data)) return null;
   return (
     <div className="device-list">
       <Collapse defaultActiveKey={['1']} ghost>
-        {!isEmpty(userList) &&
-          userList.map((el) => (
-            <Panel header={el.Value.username} key={el.Key} extra={genExtra(el)}>
-              {!isEmpty(el.Value.listDevices) &&
-                el.Value.listDevices.map((it) => {
+        {!isEmpty(data) &&
+          data.map((el) => (
+            <Panel header={el.user.username} key={el.Key} extra={genExtra(el)}>
+              {!isEmpty(el.listDevices) &&
+                el.listDevices.map((it) => {
                   const item = deviceList.find((v) => v.device_id === it);
                   return (
                     <p

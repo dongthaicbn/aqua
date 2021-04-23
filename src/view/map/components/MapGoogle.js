@@ -100,9 +100,9 @@ const MapGoogle = compose(
       JSON.stringify(deviceSave) !== JSON.stringify(deviceList)
     ) {
       deviceSave = [...deviceList];
-      fitBounds();
+      if (deviceList.length > 1) fitBounds();
     } // eslint-disable-next-line
-  }, [deviceList]);
+  }, []);
   useEffect(() => {
     if (!isEmpty(deviceSelected))
       setCoordinateActive({
