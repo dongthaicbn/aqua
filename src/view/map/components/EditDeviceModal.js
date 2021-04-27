@@ -148,14 +148,14 @@ const EditDeviceModal = (props) => {
               </Form.Item>
             </Col>
             <Col span={6}>
-              <span className="lab-text">Kinh độ (longitude)</span>
-              <Form.Item name="longitude">
+              <span className="lab-text">Vĩ độ (latitude)</span>
+              <Form.Item name="latitude">
                 <Input />
               </Form.Item>
             </Col>
             <Col span={6}>
-              <span className="lab-text">Vĩ độ (latitude)</span>
-              <Form.Item name="latitude">
+              <span className="lab-text">Kinh độ (longitude)</span>
+              <Form.Item name="longitude">
                 <Input />
               </Form.Item>
             </Col>
